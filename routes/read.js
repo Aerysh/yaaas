@@ -7,7 +7,11 @@ const { base } = require('../helpers/url');
 router.get('/:endpoint', async (req, res) => {
     try{
         const browser = await puppeteer.launch({
-            headless: true
+            headless: true,
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+              ],
         });
 
         const page = await browser.newPage();
