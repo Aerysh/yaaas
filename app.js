@@ -5,7 +5,10 @@ const app = express();
 
 // Import Router
 const latestRouter = require('./routes/latest');
+const detailRouter = require('./routes/detail');
+
 app.use('/latest', latestRouter);
+app.use('/detail', detailRouter);
 
 app.get('/', (req, res) => {
     res.json({message: "Manhwaindo.id API, https://github.com/Aerysh"});
