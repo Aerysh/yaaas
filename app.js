@@ -1,6 +1,6 @@
 const express = require('express');
 require('dotenv/config');
-const APP_PORT = process.env.APP_PORT || 8000;
+const PORT = process.env.PORT || 8000;
 const app = express();
 
 // Import Router
@@ -16,6 +16,6 @@ app.get('/', (req, res) => {
     res.json({message: "Manhwaindo.id API, https://github.com/Aerysh"});
 });
 
-app.listen(APP_PORT, () => {
-    console.log(`App listening http://localhost:${APP_PORT}`);
+app.listen(PORT, () => {
+    console.log(`App listening http://localhost:${PORT}`);
 });
