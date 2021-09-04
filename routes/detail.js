@@ -1,13 +1,25 @@
 const express = require('express');
-const axios = require('axios')
+const _browser = require('../helpers/puppeteer');
 const cheerio = require('cheerio');
 const router = express.Router();
 const { detail } = require('../helpers/url');
 
 router.get('/:endpoint', async (req, res) => {
     try{
-        const { data } = await axios.get(detail + req.params.endpoint);
-        const $ = cheerio.load(data);
+        const browser = await _browser();
+        const page = await browser.newPage();
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
+                req.abort();
+            }else{
+                req.continue();
+            }
+        });
+        await page.goto(detail + req.params.endpoint);
+        const content = await page.content();
+
+        const $ = cheerio.load(content);
         const manhwaDetail = $(".main-info");
         const manhwas = [];
         manhwaDetail.each((idx, el) => {
@@ -39,6 +51,8 @@ router.get('/:endpoint', async (req, res) => {
 
             manhwas.push(manhwa);
         });
+        await page.close();
+        await browser.close();
 
         res.json({message: "Manhwa Detail", manhwa: manhwas});
     } catch(err) {
