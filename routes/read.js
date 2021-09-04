@@ -1,20 +1,21 @@
 const express = require('express');
-const puppeteer = require('puppeteer');
+const _browser = require('../helpers/puppeteer');
 const cheerio = require('cheerio');
 const router = express.Router();
 const { base } = require('../helpers/url');
 
 router.get('/:endpoint', async (req, res) => {
     try{
-        const browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-              ],
-        });
-
+        const browser = await _browser();
         const page = await browser.newPage();
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
+                req.abort();
+            }else{
+                req.continue();
+            }
+        });
         await page.goto(base + req.params.endpoint);
         const content = await page.content();
 
@@ -32,9 +33,11 @@ router.get('/:endpoint', async (req, res) => {
 
                 read.images.push(image);
             });
-            browser.close();
+            
             chapter.push(read);
         });
+        await page.close();
+        await browser.close();
 
         res.json({message: "Read Manhwa Chapter", chapter: chapter});
     } catch(err) {
