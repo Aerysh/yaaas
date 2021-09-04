@@ -41,10 +41,12 @@ npm run dev
 | Endpoint          | Params           | Description                                                             |
 | ----------------- | ---------------- | ----------------------------------------------------------------------- |
 | /all/:page        | page             | Get All Manhwa List                                                     |
-| /latest           | -                | Get Latest Manhwa Update                                                |
-| /search/:title    | manhwa title     | Search Manhwa By Title ( doesn't works on heroku but it works locally ) |
-| /detail/:endpoint | manhwa endpoint  | Get details about a manhwa                                              |
-| /read/:endpoint   | chapter endpoint | Get images list of a chapter                                            |
+| /latest           | -                | Get latest Manhwa Update                                                |
+| /search/:title    | manhwa title     | Search Manhwa by Title ( doesn't works on heroku but it works locally ) |
+| /detail/:endpoint | manhwa endpoint  | Get Details About a Manhwa                                              |
+| /read/:endpoint   | chapter endpoint | Get Images List Of a Chapter                                            |
+| /genre            | -                | Get All Genre                                                           |
+| /genre/:endpoint  | genre endpoint   | Get All Manhwa by Genre                                                 |
 
 ## Todo
 
