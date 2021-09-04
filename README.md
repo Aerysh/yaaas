@@ -40,8 +40,9 @@ npm run dev
 
 | Endpoint          | Params           | Description                  |
 | ----------------- | ---------------- | ---------------------------- |
-| /latest           | -                | Get Latest Manhwa Update     |
 | /all/:page        | page             | Get All Manhwa List          |
+| /latest           | -                | Get Latest Manhwa Update     |
+| /search/:title    | manhwa title     | Search Manhwa By Title       |
 | /detail/:endpoint | manhwa endpoint  | Get details about a manhwa   |
 | /read/:endpoint   | chapter endpoint | Get images list of a chapter |
 
