@@ -38,13 +38,13 @@ npm run dev
 
 **Path** : https://manhwaindo-api.herokuapp.com/</br>
 
-| Endpoint          | Params           | Description                  |
-| ----------------- | ---------------- | ---------------------------- |
-| /all/:page        | page             | Get All Manhwa List          |
-| /latest           | -                | Get Latest Manhwa Update     |
-| /search/:title    | manhwa title     | Search Manhwa By Title       |
-| /detail/:endpoint | manhwa endpoint  | Get details about a manhwa   |
-| /read/:endpoint   | chapter endpoint | Get images list of a chapter |
+| Endpoint          | Params           | Description                                                             |
+| ----------------- | ---------------- | ----------------------------------------------------------------------- |
+| /all/:page        | page             | Get All Manhwa List                                                     |
+| /latest           | -                | Get Latest Manhwa Update                                                |
+| /search/:title    | manhwa title     | Search Manhwa By Title ( doesn't works on heroku but it works locally ) |
+| /detail/:endpoint | manhwa endpoint  | Get details about a manhwa                                              |
+| /read/:endpoint   | chapter endpoint | Get images list of a chapter                                            |
 
 ## Todo
 
