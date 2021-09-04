@@ -9,12 +9,14 @@ const latestRouter = require('./routes/latest');
 const searchRouter = require('./routes/search');
 const detailRouter = require('./routes/detail');
 const readRouter = require('./routes/read');
+const genreRouter = require('./routes/genres');
 
 app.use('/all', allRouter);
 app.use('/latest', latestRouter);
 app.use('/search', searchRouter);
 app.use('/detail', detailRouter);
 app.use('/read', readRouter);
+app.use('/genre', genreRouter);
 
 app.get('/', (req, res) => {
     res.json({message: "Manhwaindo.id API, https://github.com/Aerysh"});
