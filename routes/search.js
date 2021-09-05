@@ -16,7 +16,7 @@ router.get('/:title', async (req, res) => {
                 req.continue();
             }
         });
-        await page.goto(search + req.params.title.replaceAll(" ", "+"));
+        await page.goto(search + req.params.title.replace(/\s/g, "+"));
         const content = await page.content();
         const $ = cheerio.load(content);
         const manhwaList = $(".postbody .listupd .bs");
@@ -35,6 +35,7 @@ router.get('/:title', async (req, res) => {
 
         res.json({message: "Search Manhwa Results", manhwas: manhwas});
     } catch(err) {
+        console.log(err);
         res.json({message: err});
     }
 });
