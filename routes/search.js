@@ -35,6 +35,7 @@ router.get('/:title', async (req, res) => {
 
         res.json({message: "Search Manhwa Results", manhwas: manhwas});
     } catch(err) {
+        console.log(err);
         res.json({message: err});
     }
 });
