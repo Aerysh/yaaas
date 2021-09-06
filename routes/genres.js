@@ -1,26 +1,13 @@
 const express = require('express');
-const _browser = require('../helpers/puppeteer');
 const cheerio = require('cheerio');
 const router = express.Router();
 const { base } = require('../helpers/url');
-const { route } = require('./detail');
+const axios = require('axios');
 
 router.get('/', async (req, res) => {
     try{
-        const browser = await _browser();
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
-                req.abort();
-            }else{
-                req.continue();
-            }
-        });
-        await page.goto(base);
-        const content = await page.content();
-
-        const $ = cheerio.load(content);
+        const { data } = await axios.get(base);
+        const $ = cheerio.load(data);
         const genreList = $("#sidebar .section .genre li");
         const genres = [];
         genreList.each((idx, el) => {
@@ -30,8 +17,6 @@ router.get('/', async (req, res) => {
 
             genres.push(genre);
         });
-        await page.close()
-        await browser.close()
 
         res.json({message: "Genres List", genres: genres});
     } catch(err) {
@@ -41,20 +26,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:endpoint', async(req, res) => {
     try{
-        const browser = await _browser();
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
-                req.abort();
-            }else{
-                req.continue();
-            }
-        });
-        await page.goto(`${base}genres/${req.params.endpoint}`);
-        const content = await page.content();
-
-        const $ = cheerio.load(content);
+        const { data } = await axios.get(base + 'genres/' + req.params.endpoint);
+        const $ = cheerio.load(data);
         const manhwaList = $(".postbody .listupd .bs");
         const manhwas = [];
         manhwaList.each((idx, el) => {
@@ -66,9 +39,6 @@ router.get('/:endpoint', async(req, res) => {
 
             manhwas.push(manhwa);
         });
-
-        await page.close()
-        await browser.close()
 
         res.json({message: "Manhwa by Genre", genre: $(".postbody .bixbox .releases h1").text(), manhwas: manhwas});
     } catch(err) {

@@ -1,5 +1,4 @@
 const express = require('express');
-const _browser = require('../helpers/puppeteer');
 const cheerio = require('cheerio');
 const router = express.Router();
 const { latest } = require('../helpers/url');
