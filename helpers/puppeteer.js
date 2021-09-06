@@ -9,7 +9,7 @@ module.exports = async () => {
     );
 
     const _browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: ["--no-sandbox", "--disable-setuid-sandbox", "--single-process", "--no-zygote"],
     });
 
