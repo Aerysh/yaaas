@@ -8,14 +8,6 @@ router.get('/:endpoint', async (req, res) => {
     try{
         const browser = await _browser();
         const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
-                req.abort();
-            }else{
-                req.continue();
-            }
-        });
         await page.goto(base + req.params.endpoint);
         const content = await page.content();
 
@@ -23,8 +15,16 @@ router.get('/:endpoint', async (req, res) => {
         const readTag = $("article");
         const chapter = [];
         readTag.each((idx, el) => {
-            const read = {title: "", images: []};
+            const read = {title: "", prevChapter: "", nextChapter: "", images: []};
             read.title = $(el).find(".headpost .entry-title").text().replace("Komik ", "");
+            read.prevChapter = $(el).find(".entry-content .chnav .navlef .npv .nextprev .ch-prev-btn")
+                                    .attr("href")
+                                    .replace("#/prev/", "-")
+                                    .replace("https://manhwaindo.id/", "");
+            read.nextChapter = $(el).find(".entry-content .chnav .navlef .npv .nextprev .ch-next-btn")
+                                    .attr("href")
+                                    .replace("#/next/", "-")
+                                    .replace("https://manhwaindo.id/", "");
             const chapterImage = $(".entry-content #readerarea img");
             chapterImage.each((idx, el) => {
                 const image = {index: "", url: ""};
