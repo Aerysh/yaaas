@@ -1,24 +1,13 @@
 const express = require('express');
-const _browser = require('../helpers/puppeteer');
 const cheerio = require('cheerio');
 const router = express.Router();
 const { search } = require('../helpers/url');
+const axios = require('axios');
 
 router.get('/:title', async (req, res) => {
     try{
-        const browser = await _browser();
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-            if(req.resourceType() === 'image' || req.resourceType() === 'stylesheet' || req.resourceType() === 'font'){
-                req.abort();
-            }else{
-                req.continue();
-            }
-        });
-        await page.goto(search + req.params.title.replace(/\s/g, "+"));
-        const content = await page.content();
-        const $ = cheerio.load(content);
+        const {data} = await axios.get(search + req.params.title);
+        const $ = cheerio.load(data);
         const manhwaList = $(".postbody .listupd .bs");
         const manhwas = [];
         manhwaList.each((idx, el) => {
@@ -30,8 +19,6 @@ router.get('/:title', async (req, res) => {
 
             manhwas.push(manhwa);
         });
-        await page.close();
-        await browser.close();
 
         res.json({message: "Search Manhwa Results", manhwas: manhwas});
     } catch(err) {

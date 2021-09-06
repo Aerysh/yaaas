@@ -9,6 +9,7 @@ app.use(cors())
 // Import Router
 const allRouter = require('./routes/all');
 const latestRouter = require('./routes/latest');
+const popularRouter = require('./routes/weekPopular');
 const searchRouter = require('./routes/search');
 const detailRouter = require('./routes/detail');
 const readRouter = require('./routes/read');
@@ -16,6 +17,7 @@ const genreRouter = require('./routes/genres');
 
 app.use('/all', allRouter);
 app.use('/latest', latestRouter);
+app.use('/popular', popularRouter);
 app.use('/search', searchRouter);
 app.use('/detail', detailRouter);
 app.use('/read', readRouter);

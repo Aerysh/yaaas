@@ -1,17 +1,20 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require("puppeteer-extra");
 
 module.exports = async () => {
-    try{
-        const _browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                '--no-sandbox',
-                '--disable-setuid-sandbox',
-              ],
-        });
+  try {
+    puppeteer.use(
+      require("puppeteer-extra-plugin-block-resources")({
+        blockedTypes: new Set(['stylesheet', 'image', 'media', 'font']),
+      })
+    );
 
-        return _browser;
-    } catch(err) {
-        console.log(err);
-    }
-}
+    const _browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox", "--single-process", "--no-zygote"],
+    });
+
+    return _browser;
+  } catch (err) {
+    console.log(err);
+  }
+};
