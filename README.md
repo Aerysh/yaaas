@@ -36,12 +36,13 @@ npm run dev
 
 ## API Documentation
 
-**Path** : https://manhwaindo-api.herokuapp.com/</br>
+**Path** : https://manhwaindo-api.herokuapp.com/ ( this domain only used for testing )</br>
 
 | Endpoint          | Params           | Description                  |
 | ----------------- | ---------------- | ---------------------------- |
 | /all/:page        | page             | Get All Manhwa List          |
 | /latest           | -                | Get latest Manhwa Update     |
+| /popular          |                  | Get Weekly Popular Manhwa    |
 | /search/:title    | manhwa title     | Search Manhwa by Title       |
 | /detail/:endpoint | manhwa endpoint  | Get Details About a Manhwa   |
 | /read/:endpoint   | chapter endpoint | Get Images List Of a Chapter |
