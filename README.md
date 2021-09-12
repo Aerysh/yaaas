@@ -36,7 +36,7 @@ npm run dev
 
 ## API Documentation
 
-**Path** : https://manhwaindo-api.herokuapp.com/ ( this domain only used for testing )</br>
+**Path** : http://manhwa.aerysh.xyz</br>
 
 | Endpoint          | Params           | Description                  |
 | ----------------- | ---------------- | ---------------------------- |
