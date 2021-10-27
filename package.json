@@ -11,6 +11,7 @@
   "author": "Aerysh",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.1.0",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
