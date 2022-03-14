@@ -1,6 +1,6 @@
 {
   "name": "manhwaindo-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manhwaindo.id API",
   "main": "index.js",
   "scripts": {
@@ -8,19 +8,19 @@
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "Aerysh",
-  "license": "ISC",
+  "homepage": "https://github.com/Aerysh/manhwaindo-api",
+  "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
+  "license": " GPL-2.0-or-later",
   "devDependencies": {
     "eslint": "^8.1.0",
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "axios": "^0.21.3",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "puppeteer": "^10.2.0",
+    "puppeteer": "^13.5.1",
     "puppeteer-extra": "^3.1.18",
     "puppeteer-extra-plugin-block-resources": "^2.2.9"
   }
