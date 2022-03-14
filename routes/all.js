@@ -1,14 +1,18 @@
 const express = require("express");
 const cheerio = require("cheerio");
+const _browser = require("../helpers/puppeteer");
 const router = express.Router();
 const { all } = require("../helpers/url");
-const axios = require("axios");
 
 router.get("/:page", async (req, res) => {
 	try{
-		const { data } = await axios.get(all + req.params.page);
-		const $ = cheerio.load(data);
-		const manhwaList = $(".postbody .mrgn .listupd .bs");
+		const browser = await _browser();
+		const page = await browser.newPage();
+		await page.goto(all + req.params.page);
+		const content = await page.content();
+		
+		const $ = cheerio.load(content);
+		const manhwaList = $(".postbody .bixbox .mrgn .listupd .bs");
 		const manhwas = [];
 		manhwaList.each((idx, el) => {
 			const manhwa = {title: "", thumbnail: "", latest_chapter: "", endpoint: ""};
@@ -19,6 +23,9 @@ router.get("/:page", async (req, res) => {
 
 			manhwas.push(manhwa);
 		});
+
+		await page.close();
+		await browser.close();
 
 		res.json({message: "All Manhwa List", manhwas: manhwas});
 	} catch(err) {

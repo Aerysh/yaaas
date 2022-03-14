@@ -24,7 +24,7 @@ app.use("/read", readRouter);
 app.use("/genre", genreRouter);
 
 app.get("/", (req, res) => {
-	res.json({message: "Manhwaindo.id API, https://github.com/Aerysh"});
+	res.json({message: "Manhwaindo.id API, https://github.com/Aerysh/manhwaindo-api"});
 });
 
 app.listen(PORT, () => {

@@ -1,13 +1,17 @@
 const express = require("express");
 const cheerio = require("cheerio");
+const _browser = require("../helpers/puppeteer");
 const router = express.Router();
 const { latest } = require("../helpers/url");
-const axios = require("axios");
 
 router.get("/", async (req, res) => {
 	try{
-		const { data } = await axios.get(latest);
-		const $ = cheerio.load(data);
+		const browser = await _browser();
+		const page = await browser.newPage();
+		await page.goto(latest);
+		const content = await page.content();
+
+		const $ = cheerio.load(content);
 		const latestUpdate = $(".listupd .bs");
 		const manhwas = [];
 		latestUpdate.each((idx, el) => {
@@ -19,6 +23,9 @@ router.get("/", async (req, res) => {
             
 			manhwas.push(manhwa);
 		});
+
+		await page.close();
+		await browser.close();
         
 		res.json({message: "Latest Update Manhwas", manhwas: manhwas});
 	} catch(err) {

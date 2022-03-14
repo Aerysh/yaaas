@@ -1,13 +1,17 @@
 const express = require("express");
 const cheerio = require("cheerio");
+const _browser = require("../helpers/puppeteer");
 const router = express.Router();
 const { base } = require("../helpers/url");
-const axios = require("axios");
 
 router.get("/", async (req, res) => {
 	try{
-		const { data } = await axios.get(base);
-		const $ = cheerio.load(data);
+		const browser = await _browser();
+		const page = await browser.newPage();
+		await page.goto(base);
+		const content = await page.content();
+
+		const $ = cheerio.load(content);
 		const genreList = $("#sidebar .section .genre li");
 		const genres = [];
 		genreList.each((idx, el) => {
@@ -18,6 +22,9 @@ router.get("/", async (req, res) => {
 			genres.push(genre);
 		});
 
+		await page.close();
+		await browser.close();
+
 		res.json({message: "Genres List", genres: genres});
 	} catch(err) {
 		res.json({message: err});
@@ -26,8 +33,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:endpoint", async(req, res) => {
 	try{
-		const { data } = await axios.get(base + "genres/" + req.params.endpoint);
-		const $ = cheerio.load(data);
+		const browser = await _browser();
+		const page = await browser.newPage();
+		await page.goto(base + "genres/" + req.params.endpoint);
+		const content = await page.content();
+
+		const $ = cheerio.load(content);
 		const manhwaList = $(".postbody .listupd .bs");
 		const manhwas = [];
 		manhwaList.each((idx, el) => {
@@ -39,6 +50,9 @@ router.get("/:endpoint", async(req, res) => {
 
 			manhwas.push(manhwa);
 		});
+
+		await page.close();
+		await browser.close();
 
 		res.json({message: "Manhwa by Genre", genre: $(".postbody .bixbox .releases h1").text(), manhwas: manhwas});
 	} catch(err) {
