@@ -36,8 +36,6 @@ npm run dev
 
 ## API Documentation
 
-**Path** : http://manhwa.aerysh.xyz</br>
-
 | Endpoint          | Params           | Description                  |
 | ----------------- | ---------------- | ---------------------------- |
 | /all/:page        | page             | Get All Manhwa List          |
@@ -59,4 +57,4 @@ All contribution are welcome, but please first discuss the change you wish to ma
 
 ## License
 
-[MIT](https://github.com/Aerysh/manhwaindo-api/blob/master/LICENSE)
+[GPL-2.0-or-later](https://github.com/Aerysh/manhwaindo-api/blob/master/LICENSE)
