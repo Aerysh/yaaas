@@ -22,7 +22,6 @@
     "express": "^4.17.1",
     "puppeteer": "^13.5.1",
     "puppeteer-extra": "^3.1.18",
-    "puppeteer-extra-plugin-block-resources": "^2.2.9",
     "puppeteer-extra-plugin-stealth": "^2.9.0"
   }
 }
