@@ -1,16 +1,22 @@
 {
   "name": "manhwaindo-api",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Manhwaindo.id API",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
-  "keywords": [],
+  "keywords": [
+    "api",
+    "anime",
+    "manga",
+    "manhwa",
+    "manhwa"
+  ],
   "homepage": "https://github.com/Aerysh/manhwaindo-api",
   "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
-  "license": " GPL-2.0-or-later",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "eslint": "^8.1.0",
     "nodemon": "^2.0.12"
