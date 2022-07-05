@@ -19,7 +19,7 @@
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "eslint": "^8.1.0",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.18"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",

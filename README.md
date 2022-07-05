@@ -57,4 +57,4 @@ All contribution are welcome, but please first discuss the change you wish to ma
 
 ## License
 
-[GPL-2.0-or-later](https://github.com/Aerysh/manhwaindo-api/blob/master/LICENSE)
+[GPL-3.0-or-later](https://github.com/Aerysh/manhwaindo-api/blob/master/LICENSE)
