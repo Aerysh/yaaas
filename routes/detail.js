@@ -1,57 +1,70 @@
-import express from "express";
-import cheerio from "cheerio";
-import Browser from "../helpers/puppeteer.js";
-import UrlHelper from "../helpers/url.js";
+import express from 'express';
+import cheerio from 'cheerio';
+import Browser from '../helpers/puppeteer.js';
+import UrlHelper from '../helpers/url.js';
 
 const router = express.Router();
 
-router.get("/:endpoint", async (req, res) => {
-	try{
-		const browser = await Browser();
-		const page = await browser.newPage();
-		await page.goto(UrlHelper.detail + req.params.endpoint);
-		const content = await page.content();
+router.get('/:endpoint', async (req, res) => {
+  try {
+    const browser = await Browser();
+    const page = await browser.newPage();
+    await page.goto(UrlHelper.detail + req.params.endpoint);
+    const content = await page.content();
 
-		const $ = cheerio.load(content);
-		const manhwaDetail = $(".main-info");
-		const manhwas = [];
-		manhwaDetail.each((idx, el) => {
-			const manhwa = {title: "", altTitle: "", genres: [], synopsis: "", thumbnail: "", chapters: []};
-			manhwa.title = $(el).find(".info-right .info-desc #titledesktop #titlemove h1").text().replace("Komik ", "");
-			manhwa.altTitle = $(el).find(".info-right .info-desc #titledesktop #titlemove span").text();
-            
-			const manhwaGenre = $(".info-right .info-desc .wd-full .mgen a");
-			manhwaGenre.each((idx, el) => {
-				const genre = {name: "", endpoint: ""};
-				genre.name = $(el).text();
-				genre.endpoint = $(el).attr("href").replace("https://manhwaindo.id/genres/", "");
+    const $ = cheerio.load(content);
+    const manhwaDetail = $('.main-info');
+    const manhwas = [];
+    manhwaDetail.each((idx, el) => {
+      const manhwa = {
+        title: '',
+        altTitle: '',
+        genres: [],
+        synopsis: '',
+        thumbnail: '',
+        chapters: [],
+      };
+      manhwa.title = $(el)
+        .find('.info-right .info-desc #titledesktop #titlemove h1')
+        .text()
+        .replace('Komik ', '');
+      manhwa.altTitle = $(el).find('.info-right .info-desc #titledesktop #titlemove span').text();
 
-				manhwa.genres.push(genre);
-			});
+      const manhwaGenre = $('.info-right .info-desc .wd-full .mgen a');
+      manhwaGenre.each((idx, el) => {
+        const genre = { name: '', endpoint: '' };
+        genre.name = $(el).text();
+        genre.endpoint = $(el).attr('href').replace('https://manhwaindo.id/genres/', '');
 
-			manhwa.synopsis = $(el).find(".info-right .info-desc .wd-full .entry-content p").text();
-			manhwa.thumbnail = $(el).find(".info-left .info-left-margin .thumb img").attr("src");
+        manhwa.genres.push(genre);
+      });
 
-			const manhwaChapter = $(".bixbox .eplister ul li");
-			manhwaChapter.each((idx, el) => {
-				const chapter = {name: "", date: "", endpoint: ""};
-				chapter.name = $(el).find(".chbox .eph-num a .chapternum").text();
-				chapter.date = $(el).find(".chbox .eph-num a .chapterdate").text();
-				chapter.endpoint = $(el).find(".chbox .eph-num a").attr("href").replace("https://manhwaindo.id/", "");
+      manhwa.synopsis = $(el).find('.info-right .info-desc .wd-full .entry-content p').text();
+      manhwa.thumbnail = $(el).find('.info-left .info-left-margin .thumb img').attr('src');
 
-				manhwa.chapters.push(chapter);
-			});
+      const manhwaChapter = $('.bixbox .eplister ul li');
+      manhwaChapter.each((idx, el) => {
+        const chapter = { name: '', date: '', endpoint: '' };
+        chapter.name = $(el).find('.chbox .eph-num a .chapternum').text();
+        chapter.date = $(el).find('.chbox .eph-num a .chapterdate').text();
+        chapter.endpoint = $(el)
+          .find('.chbox .eph-num a')
+          .attr('href')
+          .replace('https://manhwaindo.id/', '');
 
-			manhwas.push(manhwa);
-		});
+        manhwa.chapters.push(chapter);
+      });
 
-		await page.close();
-		await browser.close();
+      manhwas.push(manhwa);
+    });
 
-		res.json({message: "Manhwa Detail", manhwa: manhwas});
-	} catch(err) {
-		res.json({message: err});
-	}
+    await page.close();
+    await browser.close();
+
+    res.json({ message: 'Manhwa Detail', manhwa: manhwas });
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
 export default router;
