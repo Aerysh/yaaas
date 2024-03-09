@@ -1,14 +1,15 @@
-const express = require("express");
-const cheerio = require("cheerio");
-const _browser = require("../helpers/puppeteer");
+import express from "express";
+import cheerio from "cheerio";
+import Browser from "../helpers/puppeteer.js";
+import UrlHelper from "../helpers/url.js";
+
 const router = express.Router();
-const { all } = require("../helpers/url");
 
 router.get("/:page", async (req, res) => {
 	try{
-		const browser = await _browser();
+		const browser = await Browser();
 		const page = await browser.newPage();
-		await page.goto(all + req.params.page);
+		await page.goto(UrlHelper.all + req.params.page);
 		const content = await page.content();
 		
 		const $ = cheerio.load(content);
@@ -33,4 +34,4 @@ router.get("/:page", async (req, res) => {
 	}
 });
 
-module.exports = router;
+export default router;

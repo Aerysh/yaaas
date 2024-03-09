@@ -1,22 +1,19 @@
-const puppeteer = require("puppeteer-extra");
-const stealthPlugin = require("puppeteer-extra-plugin-stealth");
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
-module.exports = async () => {
+const Browser = async () => {
 	try {
-		puppeteer.use(stealthPlugin());
-
-		const _browser = await puppeteer.launch({
+		puppeteer.use(StealthPlugin());
+		const browser = await puppeteer.launch({
 			headless: true,
 			args: [
-				"--no-sandbox",
-				"--disable-setuid-sandbox",
-				"--single-process",
-				"--no-zygote",
-			],
-		});
-
-		return _browser;
-	} catch (err) {
+				'--no-sandbox',
+			]
+		})
+		return browser;
+	} catch(err) {
 		console.log(err);
 	}
-};
+}
+
+export default Browser

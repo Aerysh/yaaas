@@ -1,27 +1,30 @@
-const express = require("express");
-require("dotenv/config");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
+dotenv.config();
+
 const PORT = process.env.PORT || 8000;
 const app = express();
-var cors = require("cors");
 
 app.use(cors());
 
-// Import Router
-const allRouter = require("./routes/all");
-const latestRouter = require("./routes/latest");
-const popularRouter = require("./routes/weekPopular");
-const searchRouter = require("./routes/search");
-const detailRouter = require("./routes/detail");
-const readRouter = require("./routes/read");
-const genreRouter = require("./routes/genres");
+import AllRouter from "./routes/all.js";
+import DetailRouter from "./routes/detail.js";
+import GenreRouter from "./routes/genres.js";
+import LatestRouter from "./routes/latest.js";
+import ReadRouter from "./routes/read.js";
+import SearchRouter from "./routes/search.js";
+import PopularRouter from "./routes/weekPopular.js";
 
-app.use("/all", allRouter);
-app.use("/latest", latestRouter);
-app.use("/popular", popularRouter);
-app.use("/search", searchRouter);
-app.use("/detail", detailRouter);
-app.use("/read", readRouter);
-app.use("/genre", genreRouter);
+
+app.use("/all", AllRouter);
+app.use("/detail", DetailRouter);
+app.use("/genre", GenreRouter);
+app.use("/latest", LatestRouter);
+app.use("/read", ReadRouter);
+app.use("/search", SearchRouter);
+app.use("/popular", PopularRouter);
 
 app.get("/", (req, res) => {
 	res.json({message: "Manhwaindo.id API, https://github.com/Aerysh/manhwaindo-api"});
