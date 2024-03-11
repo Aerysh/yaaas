@@ -9,13 +9,13 @@ const app = express();
 
 app.use(cors());
 
-import AllRouter from './routes/all.js';
-import DetailRouter from './routes/detail.js';
-import GenreRouter from './routes/genres.js';
-import LatestRouter from './routes/latest.js';
-import ReadRouter from './routes/read.js';
-import SearchRouter from './routes/search.js';
-import PopularRouter from './routes/weekPopular.js';
+import AllRouter from '../src/routes/all.js';
+import DetailRouter from '../src/routes/detail.js';
+import GenreRouter from '../src/routes/genres.js';
+import LatestRouter from '../src/routes/latest.js';
+import ReadRouter from '../src/routes/read.js';
+import SearchRouter from '../src/routes/search.js';
+import PopularRouter from '../src/routes/weekPopular.js';
 
 app.use('/all', AllRouter);
 app.use('/detail', DetailRouter);

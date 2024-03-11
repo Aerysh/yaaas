@@ -1,7 +1,7 @@
 import express from 'express';
 import cheerio from 'cheerio';
-import Browser from '../helpers/puppeteer.js';
-import UrlHelper from '../helpers/url.js';
+import Browser from '../utils/puppeteer.js';
+import UrlHelper from '../utils/url-helper.js';
 
 const router = express.Router();
 
