@@ -3,10 +3,10 @@
   "version": "0.1.1",
   "description": "Manhwaindo.id API",
   "type": "module",
-  "exports": "./app.js",
+  "exports": "./src/index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "format": "prettier -w . --cache",
     "lint": "eslint ."
   },

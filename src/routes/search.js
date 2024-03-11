@@ -1,19 +1,18 @@
 import express from 'express';
 import cheerio from 'cheerio';
-import Browser from '../helpers/puppeteer.js';
-import UrlHelper from '../helpers/url.js';
+import Browser from '../utils/puppeteer.js';
+import UrlHelper from '../utils/url-helper.js';
 
 const router = express.Router();
-
-router.get('/:page', async (req, res) => {
+router.get('/:title', async (req, res) => {
   try {
     const browser = await Browser();
     const page = await browser.newPage();
-    await page.goto(UrlHelper.all + req.params.page);
+    await page.goto(UrlHelper.search + req.params.title);
     const content = await page.content();
 
     const $ = cheerio.load(content);
-    const manhwaList = $('.postbody .bixbox .mrgn .listupd .bs');
+    const manhwaList = $('.postbody .listupd .bs');
     const manhwas = [];
     manhwaList.each((idx, el) => {
       const manhwa = { title: '', thumbnail: '', latest_chapter: '', endpoint: '' };
@@ -31,8 +30,9 @@ router.get('/:page', async (req, res) => {
     await page.close();
     await browser.close();
 
-    res.json({ message: 'All Manhwa List', manhwas: manhwas });
+    res.json({ message: 'Search Manhwa Results', manhwas: manhwas });
   } catch (err) {
+    console.log(err);
     res.json({ message: err });
   }
 });

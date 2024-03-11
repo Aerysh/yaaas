@@ -1,24 +1,25 @@
 import express from 'express';
 import cheerio from 'cheerio';
-import Browser from '../helpers/puppeteer.js';
-import UrlHelper from '../helpers/url.js';
+import Browser from '../utils/puppeteer.js';
+import UrlHelper from '../utils/url-helper.js';
 
 const router = express.Router();
-router.get('/:title', async (req, res) => {
+
+router.get('/', async (req, res) => {
   try {
     const browser = await Browser();
     const page = await browser.newPage();
-    await page.goto(UrlHelper.search + req.params.title);
+    await page.goto(UrlHelper.latest);
     const content = await page.content();
 
     const $ = cheerio.load(content);
-    const manhwaList = $('.postbody .listupd .bs');
+    const latestUpdate = $('.listupd .bs');
     const manhwas = [];
-    manhwaList.each((idx, el) => {
-      const manhwa = { title: '', thumbnail: '', latest_chapter: '', endpoint: '' };
+    latestUpdate.each((idx, el) => {
+      const manhwa = { title: '', chapter: '', thumbnail: '', endpoint: '' };
       manhwa.title = $(el).find('.bsx a').attr('title');
+      manhwa.chapter = $(el).find('.bsx a .bigor .adds .epxs').text();
       manhwa.thumbnail = $(el).find('.bsx a .limit img').attr('src');
-      manhwa.latest_chapter = $(el).find('.bsx a .bigor .adds .epxs').text();
       manhwa.endpoint = $(el)
         .find('.bsx a')
         .attr('href')
@@ -30,9 +31,8 @@ router.get('/:title', async (req, res) => {
     await page.close();
     await browser.close();
 
-    res.json({ message: 'Search Manhwa Results', manhwas: manhwas });
+    res.json({ message: 'Latest Update Manhwas', manhwas: manhwas });
   } catch (err) {
-    console.log(err);
     res.json({ message: err });
   }
 });
