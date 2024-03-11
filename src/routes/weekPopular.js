@@ -1,11 +1,11 @@
-import express from 'express';
-import cheerio from 'cheerio';
-import Browser from '../utils/puppeteer.js';
-import UrlHelper from '../utils/url-helper.js';
+import express from "express";
+import cheerio from "cheerio";
+import Browser from "../utils/puppeteer.js";
+import UrlHelper from "../utils/url-helper.js";
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const browser = await Browser();
     const page = await browser.newPage();
@@ -13,16 +13,16 @@ router.get('/', async (req, res) => {
     const content = await page.content();
 
     const $ = cheerio.load(content);
-    const wpop = $('#content #sidebar #wpop-items .wpop-weekly ul li');
+    const wpop = $("#content #sidebar #wpop-items .wpop-weekly ul li");
     const popular = [];
     wpop.each((idx, el) => {
-      const manhwa = { title: '', thumbnail: '', endpoint: '' };
-      manhwa.title = $(el).find('.leftseries h2').text();
-      manhwa.thumbnail = $(el).find('.imgseries a img').attr('src');
+      const manhwa = { title: "", thumbnail: "", endpoint: "" };
+      manhwa.title = $(el).find(".leftseries h2").text();
+      manhwa.thumbnail = $(el).find(".imgseries a img").attr("src");
       manhwa.endpoint = $(el)
-        .find('.imgseries a')
-        .attr('href')
-        .replace('https://manhwaindo.id/series/', '');
+        .find(".imgseries a")
+        .attr("href")
+        .replace("https://manhwaindo.id/series/", "");
 
       popular.push(manhwa);
     });
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
     await page.close();
     await browser.close();
 
-    res.json({ message: 'Weekly Popular', manhwas: popular });
+    res.json({ message: "Weekly Popular", manhwas: popular });
   } catch (err) {
     res.json({ message: err });
   }

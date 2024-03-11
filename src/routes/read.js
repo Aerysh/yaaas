@@ -1,11 +1,11 @@
-import express from 'express';
-import cheerio from 'cheerio';
-import Browser from '../utils/puppeteer.js';
-import UrlHelper from '../utils/url-helper.js';
+import express from "express";
+import cheerio from "cheerio";
+import Browser from "../utils/puppeteer.js";
+import UrlHelper from "../utils/url-helper.js";
 
 const router = express.Router();
 
-router.get('/:endpoint', async (req, res) => {
+router.get("/:endpoint", async (req, res) => {
   try {
     const browser = await Browser();
     const page = await browser.newPage();
@@ -13,26 +13,29 @@ router.get('/:endpoint', async (req, res) => {
     const content = await page.content();
 
     const $ = cheerio.load(content);
-    const readTag = $('article');
+    const readTag = $("article");
     const chapter = [];
     readTag.each((idx, el) => {
-      const read = { title: '', prevChapter: '', nextChapter: '', images: [] };
-      read.title = $(el).find('.headpost .entry-title').text().replace('Komik ', '');
+      const read = { title: "", prevChapter: "", nextChapter: "", images: [] };
+      read.title = $(el)
+        .find(".headpost .entry-title")
+        .text()
+        .replace("Komik ", "");
       read.prevChapter = $(el)
-        .find('.entry-content .chnav .navlef .npv .nextprev .ch-prev-btn')
-        .attr('href')
-        .replace('#/prev/', '-')
-        .replace('https://manhwaindo.id/', '');
+        .find(".entry-content .chnav .navlef .npv .nextprev .ch-prev-btn")
+        .attr("href")
+        .replace("#/prev/", "-")
+        .replace("https://manhwaindo.id/", "");
       read.nextChapter = $(el)
-        .find('.entry-content .chnav .navlef .npv .nextprev .ch-next-btn')
-        .attr('href')
-        .replace('#/next/', '-')
-        .replace('https://manhwaindo.id/', '');
-      const chapterImage = $('.entry-content #readerarea img');
+        .find(".entry-content .chnav .navlef .npv .nextprev .ch-next-btn")
+        .attr("href")
+        .replace("#/next/", "-")
+        .replace("https://manhwaindo.id/", "");
+      const chapterImage = $(".entry-content #readerarea img");
       chapterImage.each((idx, el) => {
-        const image = { index: '', url: '' };
-        image.index = parseInt($(el).attr('data-index')) + 1;
-        image.url = $(el).attr('src');
+        const image = { index: "", url: "" };
+        image.index = parseInt($(el).attr("data-index")) + 1;
+        image.url = $(el).attr("src");
 
         read.images.push(image);
       });
@@ -42,7 +45,7 @@ router.get('/:endpoint', async (req, res) => {
     await page.close();
     await browser.close();
 
-    res.json({ message: 'Read Manhwa Chapter', chapter: chapter });
+    res.json({ message: "Read Manhwa Chapter", chapter: chapter });
   } catch (err) {
     res.json({ message: err });
   }
