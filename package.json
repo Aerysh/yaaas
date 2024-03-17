@@ -2,13 +2,12 @@
   "name": "manhwaindo-api",
   "version": "0.1.1",
   "description": "Manhwaindo.id API",
-  "type": "module",
-  "exports": "./src/index.js",
+  "engines": {
+    "node": ">=20.0 < 21.0"
+  },
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "format": "prettier -w . --cache",
-    "lint": "eslint ."
+    "start": "pnpm transpile && node dist/server.js",
+    "transpile": "tsc -p tsconfig.json"
   },
   "keywords": [
     "api",
@@ -21,18 +20,19 @@
   "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "@types/node": "^20.11.28",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-prettier": "^5.1.3",
     "nodemon": "^3.1.0",
-    "prettier": "3.2.5"
+    "prettier": "3.2.5",
+    "typescript": "^5.4.2"
   },
   "dependencies": {
-    "cheerio": "1.0.0-rc.12",
-    "cors": "^2.8.5",
+    "@fastify/cors": "^9.0.1",
     "dotenv": "^16.4.5",
-    "express": "^4.18.3",
+    "fastify": "^4.26.2",
     "puppeteer": "^22.5.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
