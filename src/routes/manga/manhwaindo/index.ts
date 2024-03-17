@@ -1,9 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest, RegisterOptions } from 'fastify';
-import ManhwaindoPopular from './popular';
 
 const Manhwaindo = async (fastify: FastifyInstance, options: RegisterOptions) => {
-  await fastify.register(ManhwaindoPopular, { prefix: '/popular' });
-
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     reply.status(200).send({
       message: 'Welcome to Manhwaindo Provider, please visit them at https://manhwaindo.id',
