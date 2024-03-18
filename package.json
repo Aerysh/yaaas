@@ -9,7 +9,8 @@
     "start": "pnpm transpile && node dist/server.js",
     "dev": "nodemon server.ts",
     "transpile": "tsc -p tsconfig.json",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write . --cache"
   },
   "keywords": [
     "api",
