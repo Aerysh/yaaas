@@ -1,6 +1,7 @@
-import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import cors from '@fastify/cors';
 import dotenv from 'dotenv';
+import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+
 import Server from './src';
 
 dotenv.config();
@@ -30,9 +31,7 @@ fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
 const start = async () => {
   try {
     await fastify.listen({ port: parseInt(PORT) });
-    const address = fastify.server.address();
-
-    const port = typeof address === 'string' ? address : address?.port;
+    console.log(`Server listening on http://localhost:${PORT}`);
   } catch (error) {
     fastify.log.error(error);
     process.exit(1);
