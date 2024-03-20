@@ -41,7 +41,7 @@ const start = async () => {
     await fastify.listen({ port: parseInt(PORT) });
     fastify.swagger();
     console.log(`Server listening on http://localhost:${PORT}`);
-    console.log(`Access Swagger-UI at http://localhost:${PORT}/docs`);
+    console.log(`Access Swagger-UI at http://localhost:${PORT}/documentation`);
   } catch (error) {
     fastify.log.error(error);
     process.exit(1);
