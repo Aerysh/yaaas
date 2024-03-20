@@ -83,7 +83,7 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
             const manhwa: Manhwa = {
               title: '',
               thumbnail: '',
-              latest_chapter: '',
+              latestChapter: '',
               endpoint: '',
             };
             manhwa.title = el.querySelector('.bsx a')?.getAttribute('title') || '';
@@ -91,8 +91,7 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
               el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
               el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
               '';
-            manhwa.latest_chapter =
-              el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '';
+            manhwa.latestChapter = el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '';
             manhwa.endpoint = el.querySelector('.bsx a')?.getAttribute('href') || '';
             manhwa.endpoint =
               manhwa.endpoint

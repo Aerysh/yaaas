@@ -39,12 +39,12 @@ const ManhwaindoPopular = async (fastify: FastifyInstance) => {
                 el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
                 el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
                 '',
-              latest_chapter: el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '',
+              latestChapter: el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '',
               endpoint: el.querySelector('.bsx a')?.getAttribute('href') || '',
             };
             manhwa.endpoint = manhwa.endpoint
-              .replace('https://manhwaindo.id/', '')
-              .replace('https://manhwaindo.net/', '')
+              .replace('https://manhwaindo.id/series/', '')
+              .replace('https://manhwaindo.net/series/', '')
               .replace('/', '');
             return manhwa;
           });
