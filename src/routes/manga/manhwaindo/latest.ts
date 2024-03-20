@@ -35,7 +35,10 @@ const ManhwaindoLatest = async (fastify: FastifyInstance) => {
           return manhwaList.map((el) => {
             const manhwa: Manhwa = {
               title: el.querySelector('.bsx a')?.getAttribute('title') || '',
-              thumbnail: el.querySelector('.bsx a .limit img')?.getAttribute('src') || '',
+              thumbnail:
+                el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
+                el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
+                '',
               latest_chapter: el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '',
               endpoint: el.querySelector('.bsx a')?.getAttribute('href') || '',
             };
@@ -48,7 +51,7 @@ const ManhwaindoLatest = async (fastify: FastifyInstance) => {
         });
 
         reply.status(200).send({
-          message: `Manhwaindo Latest Updated List Page ${request.params.page}`,
+          message: `ManhwaIndo: Latest Updated Series Page ${pageNumber}`,
           manhwas,
         });
       } catch (error) {

@@ -27,8 +27,8 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
               el
                 .querySelector('a')
                 ?.getAttribute('href')
-                ?.replace('https://manhwaindo.id/', '')
-                ?.replace('https://manhwaindo.net/', '')
+                ?.replace('https://manhwaindo.id/genres/', '')
+                ?.replace('https://manhwaindo.net/genres/', '')
                 ?.replace('/', '') || '',
           };
           return genre;
@@ -87,19 +87,25 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
               endpoint: '',
             };
             manhwa.title = el.querySelector('.bsx a')?.getAttribute('title') || '';
-            manhwa.thumbnail = el.querySelector('.bsx a .limit img')?.getAttribute('src') || '';
+            manhwa.thumbnail =
+              el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
+              el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
+              '';
             manhwa.latest_chapter =
               el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '';
             manhwa.endpoint = el.querySelector('.bsx a')?.getAttribute('href') || '';
-            manhwa.endpoint = manhwa.endpoint?.replace('https://manhwaindo.id/series/', '') || '';
-            manhwa.endpoint = manhwa.endpoint?.replace('/', '');
+            manhwa.endpoint =
+              manhwa.endpoint
+                ?.replace('https://manhwaindo.net/series/', '')
+                .replace('https://manhwaindo.id/series/', '')
+                .replace('/', '') || '';
 
             return manhwa;
           });
         });
 
         reply.status(200).send({
-          message: `Manhwaindo: Series With ${request.params.endpoint} Genre Page ${request.params.page}`,
+          message: `ManhwaIndo: Series With ${request.params.endpoint} Genre Page ${request.params.page}`,
           manhwas,
         });
       } catch (error) {

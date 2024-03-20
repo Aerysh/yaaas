@@ -31,7 +31,10 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
             chapters: [],
           };
 
-          manhwa.thumbnail = document.querySelector('.thumb img')?.getAttribute('src') || '';
+          manhwa.thumbnail =
+            document.querySelector('.thumb img')?.getAttribute('data-lazy-src') ||
+            document.querySelector('.thumb img')?.getAttribute('src') ||
+            '';
           manhwa.title = document.querySelector('h1.entry-title')?.textContent || 'No title';
           manhwa.altTitle = document.querySelector('.alternative')?.textContent || '';
 
@@ -39,7 +42,12 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
           document.querySelectorAll('.mgen a').forEach((genreElement) => {
             const genre: Genre = {
               name: genreElement.textContent || 'No genre',
-              endpoint: genreElement.getAttribute('href') || '',
+              endpoint:
+                genreElement
+                  .getAttribute('href')
+                  ?.replace('https://manhwaindo.net/genres/', '')
+                  ?.replace('https://manhwaindo.id/genres/', '')
+                  ?.replace('/', '') || '',
             };
             genres.push(genre);
           });
@@ -74,7 +82,7 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
         });
 
         reply.status(200).send({
-          message: `Manhwa Details`,
+          message: `ManhwaIndo: ${manhwaDetail.title} Details`,
           manhwaDetail,
         });
       } catch (error) {
