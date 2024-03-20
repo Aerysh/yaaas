@@ -23,7 +23,10 @@ fastify.register(Server, { prefix: '/api' });
 
 fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
   reply.status(200).send({
-    message: 'Welcome to Manhwaindo API',
+    message: 'Welcome to reimagined-phone! (this is a placeholder)',
+    routes: {
+      '/api': 'API Routes List',
+    },
     documentation: 'https://github.com/Aerysh/manhwaindo-api',
   });
 });

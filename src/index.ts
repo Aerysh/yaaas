@@ -8,6 +8,9 @@ const Server = async (fastify: FastifyInstance) => {
   fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
     reply.status(200).send({
       message: 'Welcome to reimagined-phone! (this is a placeholder)',
+      routes: {
+        '/manga': 'Manga API Provider List',
+      },
     });
   });
 };
