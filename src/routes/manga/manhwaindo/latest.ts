@@ -38,34 +38,38 @@ const ManhwaindoLatest = async (fastify: FastifyInstance) => {
           waitUntil: 'networkidle0',
         });
 
-        await page.waitForSelector('img');
+        await page.waitForSelector('img', { timeout: 3000 });
 
         const manhwas: Manhwa[] = await page.evaluate(() => {
           const manhwaList = Array.from(
             document.querySelectorAll('.postbody .bixbox .mrgn .listupd .bs')
           );
           return manhwaList.map((el) => {
-            const manhwa: Manhwa = {
-              title: el.querySelector('.bsx a')?.getAttribute('title') || '',
-              thumbnail:
-                el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
-                el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
-                '',
-              latestChapter: el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '',
-              endpoint: el.querySelector('.bsx a')?.getAttribute('href') || '',
-            };
-            manhwa.endpoint = manhwa.endpoint
+            const title = el.querySelector('.bsx a')?.getAttribute('title') || '';
+            const thumbnail =
+              el.querySelector('.bsx a .limit img')?.getAttribute('data-lazy-src') ||
+              el.querySelector('.bsx a .limit img')?.getAttribute('src') ||
+              '';
+            const latestChapter = el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '';
+            let endpoint = el.querySelector('.bsx a')?.getAttribute('href') || '';
+            endpoint = endpoint
               .replace('https://manhwaindo.id/series/', '')
               .replace('https://manhwaindo.net/series/', '')
               .replace('/', '');
-            return manhwa;
+            return { title, thumbnail, latestChapter, endpoint };
           });
         });
 
-        reply.status(200).send({
-          message: `ManhwaIndo: Latest Updated Series Page ${pageNumber}`,
-          manhwas,
-        });
+        if (manhwas.length === 0) {
+          reply.status(404).send({
+            message: 'Result not found',
+          });
+        } else {
+          reply.status(200).send({
+            message: `ManhwaIndo: Latest Updated Series Page ${pageNumber}`,
+            manhwas,
+          });
+        }
       } catch (error) {
         reply.status(500).send({
           message: 'Internal Server Error',

@@ -31,7 +31,7 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
           waitUntil: 'networkidle0',
         });
 
-        await page.waitForSelector('img');
+        await page.waitForSelector('img', { timeout: 3000 });
 
         const manhwaDetail: ManhwaDetails = await page.evaluate(() => {
           const manhwa: ManhwaDetails = {

@@ -31,7 +31,7 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
           waitUntil: 'networkidle0',
         });
 
-        await page.waitForSelector('img');
+        await page.waitForSelector('img', { timeout: 3000 });
 
         const chapterDetails: ChapterDetails = await page.evaluate(() => {
           const chapter: ChapterDetails = {
@@ -54,10 +54,16 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
           return chapter;
         });
 
-        reply.status(200).send({
-          message: `ManhwaIndo: Chapter Details`,
-          chapterDetails,
-        });
+        if (chapterDetails.images.length === 0) {
+          reply.status(404).send({
+            message: 'Result not found',
+          });
+        } else {
+          reply.status(200).send({
+            message: `ManhwaIndo: Chapter Details`,
+            chapterDetails,
+          });
+        }
       } catch (error) {
         reply.status(500).send({
           message: 'Internal Server Error',
