@@ -15,7 +15,14 @@ const ManhwaindoPopular = async (fastify: FastifyInstance) => {
         browser = await launchBrowser();
         page = await browser.newPage();
 
-        await page.goto(manhwaindoUrlHelper.popular(parseInt(request.params.page)), {
+        const pageNumber = parseInt(request.params.page, 10);
+        if (isNaN(pageNumber) || pageNumber <= 0) {
+          return reply.status(400).send({
+            message: 'Invalid page number',
+          });
+        }
+
+        await page.goto(manhwaindoUrlHelper.popular(pageNumber), {
           waitUntil: 'networkidle0',
         });
 
@@ -27,19 +34,15 @@ const ManhwaindoPopular = async (fastify: FastifyInstance) => {
           );
           return manhwaList.map((el) => {
             const manhwa: Manhwa = {
-              title: '',
-              thumbnail: '',
-              latest_chapter: '',
-              endpoint: '',
+              title: el.querySelector('.bsx a')?.getAttribute('title') || '',
+              thumbnail: el.querySelector('.bsx a .limit img')?.getAttribute('src') || '',
+              latest_chapter: el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '',
+              endpoint: el.querySelector('.bsx a')?.getAttribute('href') || '',
             };
-            manhwa.title = el.querySelector('.bsx a')?.getAttribute('title') || '';
-            manhwa.thumbnail = el.querySelector('.bsx a .limit img')?.getAttribute('src') || '';
-            manhwa.latest_chapter =
-              el.querySelector('.bsx a .bigor .adds .epxs')?.textContent || '';
-            manhwa.endpoint = el.querySelector('.bsx a')?.getAttribute('href') || '';
-            manhwa.endpoint = manhwa.endpoint?.replace('https://manhwaindo.id/series/', '') || '';
-            manhwa.endpoint = manhwa.endpoint?.replace('/', '');
-
+            manhwa.endpoint = manhwa.endpoint
+              .replace('https://manhwaindo.id/', '')
+              .replace('https://manhwaindo.net/', '')
+              .replace('/', '');
             return manhwa;
           });
         });
@@ -50,14 +53,15 @@ const ManhwaindoPopular = async (fastify: FastifyInstance) => {
         });
       } catch (error) {
         reply.status(500).send({
-          message: error,
+          message: 'Internal Server Error',
+          error,
         });
       } finally {
         if (page) {
-          await page.close();
+          await page.close().catch(console.error);
         }
         if (browser) {
-          await browser.close();
+          await browser.close().catch(console.error);
         }
       }
     }

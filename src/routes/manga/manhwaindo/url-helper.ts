@@ -1,11 +1,8 @@
-export const manhwaindoUrlHelper: {
-  base: string;
-  popular: (page?: number) => string;
-  latest: (page?: number) => string;
-  detail: (endpoint: string) => string;
-  read: (endpoint: string) => string;
-} = {
-  base: `https://manhwaindo.id/`,
+export const manhwaindoUrlHelper = {
+  base: 'https://manhwaindo.net/',
+  genres: (endpoint: string, page = 1) =>
+    `${manhwaindoUrlHelper.base}genres/${endpoint}/?page=${page}&order=popular`,
+  series: (page = 1) => `${manhwaindoUrlHelper.base}series/?page=${page}`,
   popular: (page = 1) => `${manhwaindoUrlHelper.base}series/?order=popular&page=${page}`,
   latest: (page = 1) => `${manhwaindoUrlHelper.base}series/?order=update&page=${page}`,
   detail: (endpoint: string) => `${manhwaindoUrlHelper.base}series/${endpoint}`,
