@@ -94,7 +94,7 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
           }
         );
 
-        await page.waitForSelector('img');
+        await page.waitForSelector('img', { timeout: 3000 });
 
         const manhwas: Manhwa[] = await page.evaluate(() => {
           const manhwaList = Array.from(
@@ -125,10 +125,16 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
           });
         });
 
-        reply.status(200).send({
-          message: `ManhwaIndo: Series With ${request.params.endpoint} Genre Page ${request.params.page}`,
-          manhwas,
-        });
+        if (manhwas.length === 0) {
+          reply.status(404).send({
+            message: 'Result not found',
+          });
+        } else {
+          reply.status(200).send({
+            message: `ManhwaIndo: Series With ${request.params.endpoint} Genre Page ${request.params.page}`,
+            manhwas,
+          });
+        }
       } catch (error) {
         reply.status(500).send({
           message: 'Internal Server Error',
