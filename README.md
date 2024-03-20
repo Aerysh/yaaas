@@ -1,60 +1,33 @@
-# Manhwaindo API
+# reimagined-phone (placeholder)
 
-[Manhwaindo](https://manhwaindo.id) Unofficial API</br>
+reimagined-phone menyediakan berbagai macam API untuk berbagai macam hiburan.
 
-## Usage
+# Instalasi
 
-1. Clone This Repository
+## Lokal
 
-```bash
-git clone https://github.com/Aerysh/manhwaindo-api.git
-```
+Ada beberapa hal yang harus anda miliki di sistem anda:
 
-2. Install Required Packages
+- Node.js >=20
+- PNPM
 
-```bash
-npm install
-```
-
-or
+Untuk instalasi lokal anda dapat menjalankan perintah berikut
 
 ```bash
-yarn install
+$ git clone https://github.com/Aerysh/manhwaindo-api
+$ cd manhwaindo-api
+$ pnpm install
 ```
 
-3. Start Application
+Setelah itu anda dapat menjalankan perintah berikut
 
 ```bash
-npm run start
+$ pnpm start
 ```
 
-or using nodemon
+# Dokumentasi
+<!-- TODO -->
 
-```bash
-npm run dev
-```
+# Provider Baru
+<!-- TODO -->
 
-## API Documentation
-
-| Endpoint          | Params           | Description                  |
-| ----------------- | ---------------- | ---------------------------- |
-| /all/:page        | page             | Get All Manhwa List          |
-| /latest           | -                | Get latest Manhwa Update     |
-| /popular          |                  | Get Weekly Popular Manhwa    |
-| /search/:title    | manhwa title     | Search Manhwa by Title       |
-| /detail/:endpoint | manhwa endpoint  | Get Details About a Manhwa   |
-| /read/:endpoint   | chapter endpoint | Get Images List Of a Chapter |
-| /genre            | -                | Get All Genre                |
-| /genre/:endpoint  | genre endpoint   | Get All Manhwa by Genre      |
-
-## Todo
-
-Checkout projects to see todo lists
-
-## Contribution
-
-All contribution are welcome, but please first discuss the change you wish to make via issue or any other method
-
-## License
-
-[GPL-3.0-or-later](https://github.com/Aerysh/manhwaindo-api/blob/master/LICENSE)
