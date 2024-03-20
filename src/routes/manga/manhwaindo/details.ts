@@ -8,6 +8,18 @@ import { manhwaindoUrlHelper } from './url-helper';
 const ManhwaindoDetails = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
+    {
+      schema: {
+        description: 'Get Series Detail From Provider',
+        tags: ['ManhwaIndo'],
+        params: {
+          type: 'object',
+          properties: {
+            endpoint: { type: 'string' },
+          },
+        },
+      },
+    },
     async (request: FastifyRequest<{ Params: { endpoint: string } }>, reply: FastifyReply) => {
       let browser;
       let page;

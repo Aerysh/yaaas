@@ -6,55 +6,77 @@ import { Genre, Manhwa } from './types';
 import { manhwaindoUrlHelper } from './url-helper';
 
 const ManhwaindoGenres = async (fastify: FastifyInstance) => {
-  fastify.get('/', async (request, reply) => {
-    let browser;
-    let page;
-    try {
-      browser = await launchBrowser();
-      page = await browser.newPage();
+  fastify.get(
+    '/',
+    {
+      schema: {
+        description: 'Get Genre List From Provider',
+        tags: ['ManhwaIndo'],
+      },
+    },
+    async (request, reply) => {
+      let browser;
+      let page;
+      try {
+        browser = await launchBrowser();
+        page = await browser.newPage();
 
-      await page.goto(manhwaindoUrlHelper.base, {
-        waitUntil: 'networkidle0',
-      });
-
-      const genres: Genre[] = await page.evaluate(() => {
-        const genreList = Array.from(document.querySelectorAll('ul.genre li'));
-
-        return genreList.map((el) => {
-          const genre = {
-            name: el.querySelector('a')?.textContent || '',
-            endpoint:
-              el
-                .querySelector('a')
-                ?.getAttribute('href')
-                ?.replace('https://manhwaindo.id/genres/', '')
-                ?.replace('https://manhwaindo.net/genres/', '')
-                ?.replace('/', '') || '',
-          };
-          return genre;
+        await page.goto(manhwaindoUrlHelper.base, {
+          waitUntil: 'networkidle0',
         });
-      });
 
-      reply.status(200).send({
-        message: 'Manhwaindo: Genre List',
-        genres,
-      });
-    } catch (error) {
-      reply.status(500).send({
-        message: 'Internal Server Error',
-      });
-    } finally {
-      if (page) {
-        await page.close().catch(console.error);
-      }
-      if (browser) {
-        await browser.close().catch(console.error);
+        const genres: Genre[] = await page.evaluate(() => {
+          const genreList = Array.from(document.querySelectorAll('ul.genre li'));
+
+          return genreList.map((el) => {
+            const genre = {
+              name: el.querySelector('a')?.textContent || '',
+              endpoint:
+                el
+                  .querySelector('a')
+                  ?.getAttribute('href')
+                  ?.replace('https://manhwaindo.id/genres/', '')
+                  ?.replace('https://manhwaindo.net/genres/', '')
+                  ?.replace('/', '') || '',
+            };
+            return genre;
+          });
+        });
+
+        reply.status(200).send({
+          message: 'Manhwaindo: Genre List',
+          genres,
+        });
+      } catch (error) {
+        reply.status(500).send({
+          message: 'Internal Server Error',
+        });
+      } finally {
+        if (page) {
+          await page.close().catch(console.error);
+        }
+        if (browser) {
+          await browser.close().catch(console.error);
+        }
       }
     }
-  });
+  );
 
   fastify.get<{ Params: { endpoint: string; page: string } }>(
     '/:endpoint/:page',
+    {
+      schema: {
+        description: 'Get Series List by Genre From Provider',
+        tags: ['ManhwaIndo'],
+        params: {
+          type: 'object',
+          properties: {
+            endpoint: { type: 'string' },
+            page: { type: 'number' },
+          },
+        },
+      },
+    },
     async (
       request: FastifyRequest<{ Params: { endpoint: string; page: string } }>,
       reply: FastifyReply
