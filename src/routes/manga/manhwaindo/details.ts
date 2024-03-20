@@ -25,7 +25,7 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
           const manhwa: ManhwaDetails = {
             thumbnail: '',
             title: '',
-            altTitle: '',
+            alternativeTitle: '',
             genres: [],
             synopsis: '',
             chapters: [],
@@ -36,7 +36,7 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
             document.querySelector('.thumb img')?.getAttribute('src') ||
             '';
           manhwa.title = document.querySelector('h1.entry-title')?.textContent || 'No title';
-          manhwa.altTitle = document.querySelector('.alternative')?.textContent || '';
+          manhwa.alternativeTitle = document.querySelector('.alternative')?.textContent || '';
 
           const genres: Genre[] = [];
           document.querySelectorAll('.mgen a').forEach((genreElement) => {
