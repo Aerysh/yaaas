@@ -10,7 +10,6 @@ const Manga = async (fastify: FastifyInstance) => {
     {
       schema: {
         description: 'Get Manga API Provider List',
-        tags: ['Manga'],
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
