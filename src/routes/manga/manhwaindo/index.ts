@@ -20,7 +20,7 @@ const Manhwaindo = async (fastify: FastifyInstance) => {
     {
       schema: {
         description: 'ManhwaIndo Provider API Routes',
-        tags: ['Manga', 'ManhwaIndo'],
+        tags: ['ManhwaIndo'],
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
