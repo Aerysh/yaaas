@@ -7,5 +7,5 @@ export const manhwaindoUrlHelper = {
   latest: (page = 1) => `${manhwaindoUrlHelper.base}series/?order=update&page=${page}`,
   detail: (endpoint: string) => `${manhwaindoUrlHelper.base}series/${endpoint}`,
   read: (endpoint: string) => `${manhwaindoUrlHelper.base}${endpoint}`,
-  search: (query: string) => `${manhwaindoUrlHelper.base}/?s=${query}`,
+  search: (query: string, page = 1) => `${manhwaindoUrlHelper.base}/?s=${query}&page=${page}`,
 };

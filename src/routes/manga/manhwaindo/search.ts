@@ -6,7 +6,7 @@ import { Manhwa } from './types';
 import { manhwaindoUrlHelper } from './url-helper';
 
 const ManhwaindoSearch = async (fastify: FastifyInstance) => {
-  fastify.get<{ Params: { query: string } }>(
+  fastify.get<{ Params: { query: string; page: string } }>(
     '/:query',
     {
       schema: {
@@ -16,11 +16,15 @@ const ManhwaindoSearch = async (fastify: FastifyInstance) => {
           type: 'object',
           properties: {
             query: { type: 'string' },
+            page: { type: 'string' },
           },
         },
       },
     },
-    async (request: FastifyRequest<{ Params: { query: string } }>, reply: FastifyReply) => {
+    async (
+      request: FastifyRequest<{ Params: { query: string; page: string } }>,
+      reply: FastifyReply
+    ) => {
       let browser;
       let page;
       try {
@@ -29,7 +33,7 @@ const ManhwaindoSearch = async (fastify: FastifyInstance) => {
         browser = await launchBrowser();
         page = await browser.newPage();
 
-        await page.goto(manhwaindoUrlHelper.search(encodedQuery), {
+        await page.goto(manhwaindoUrlHelper.search(encodedQuery, parseInt(request.params.page)), {
           waitUntil: 'networkidle0',
         });
 
