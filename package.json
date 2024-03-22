@@ -1,14 +1,14 @@
 {
-  "name": "manhwaindo-api",
+  "name": "yaaas",
   "version": "0.1.1",
-  "description": "Manhwaindo.id API",
+  "description": "Yet Another API for Anime and Stuff",
   "engines": {
     "node": ">=20.0 < 21.0"
   },
   "scripts": {
-    "start": "pnpm transpile && node dist/server.js",
-    "dev": "nodemon server.ts",
-    "transpile": "tsc -p tsconfig.json",
+    "start": "pnpm build && node dist/server.js",
+    "build": "rimraf dist && tsc -p tsconfig.json",
+    "dev": "nodemon",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write . --cache"
   },
@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.29.1",
     "nodemon": "^3.1.0",
     "prettier": "3.2.5",
+    "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
   },
