@@ -1,17 +1,12 @@
-# reimagined-phone (placeholder)
+# Yet Another API for Anime and Stuff
 
-reimagined-phone menyediakan berbagai macam API untuk berbagai macam hiburan.
+YAAAS provides a way to access information about entertainments such as Anime, Manga, etc.
 
-# Instalasi
+# Installation
 
-## Lokal
+## Local
 
-Ada beberapa hal yang harus anda miliki di sistem anda:
-
-- Node.js >=20
-- PNPM
-
-Untuk instalasi lokal anda dapat menjalankan perintah berikut
+You can run the following commands to clone the repository and install the dependencies
 
 ```bash
 $ git clone https://github.com/Aerysh/manhwaindo-api
@@ -19,15 +14,16 @@ $ cd manhwaindo-api
 $ pnpm install
 ```
 
-Setelah itu anda dapat menjalankan perintah berikut
+Now you can run the server
 
 ```bash
 $ pnpm start
 ```
 
-# Dokumentasi
-<!-- TODO -->
+# Documentation
 
-# Provider Baru
-<!-- TODO -->
+After running the server, you can access the documentation at `http://IP:PORT/documentation`
 
+# Contributing
+
+All Pull Requests are welcome. If you found any bugs or want to add new features, please open an issue first.
