@@ -10,7 +10,8 @@
     "build": "rimraf dist && tsc -p tsconfig.json",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts",
-    "format": "prettier --write . --cache"
+    "format": "prettier --write . --cache",
+    "prepare": "husky"
   },
   "keywords": [
     "api",
@@ -29,6 +30,8 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
     "nodemon": "^3.1.0",
     "prettier": "3.2.5",
     "rimraf": "^5.0.5",
@@ -45,5 +48,9 @@
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --quiet --fix",
+    "*.{js,jsx,ts,tsx,json}": "prettier --write"
   }
 }
