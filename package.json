@@ -23,9 +23,9 @@
   "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@types/node": "^20.11.28",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -33,7 +33,7 @@
     "prettier": "3.2.5",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
@@ -41,7 +41,7 @@
     "@fastify/swagger-ui": "^3.0.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
-    "puppeteer": "^22.5.0",
+    "puppeteer": "^22.6.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
