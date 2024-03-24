@@ -28,11 +28,11 @@ fastify.register(Server, { prefix: '/api' });
 
 fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
   reply.status(200).send({
-    message: 'Welcome to reimagined-phone! (this is a placeholder)',
+    message: 'Yet Another API for Anime and Stuff',
     routes: {
       '/api': 'API Routes List',
     },
-    repository: 'https://github.com/Aerysh/manhwaindo-api',
+    repository: 'https://github.com/Aerysh/yaaas',
   });
 });
 
