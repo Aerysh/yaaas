@@ -8,7 +8,7 @@
   "scripts": {
     "start": "pnpm build && node dist/server.js",
     "build": "rimraf dist && tsc -p tsconfig.json",
-    "dev": "nodemon",
+    "dev": "nodemon server.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write . --cache",
     "prepare": "husky"
