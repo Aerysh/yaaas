@@ -9,8 +9,8 @@ YAAAS menyediakan kumpulan API yang dapat digunakan untuk mengakses informasi te
 Anda dapat menjalankan perintah berikut untuk _clone repository_ dan menginstall _dependencies_
 
 ```bash
-git clone https://github.com/Aerysh/manhwaindo-api
-cd manhwaindo-api
+git clone https://github.com/Aerysh/yaaas
+cd yaaas
 pnpm install
 ```
 
