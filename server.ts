@@ -30,7 +30,7 @@ fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
   reply.status(200).send({
     message: 'Yet Another API for Anime and Stuff',
     routes: {
-      '/api': 'API Routes List',
+      '/api': 'List of API routes provided by YAAAS',
     },
     repository: 'https://github.com/Aerysh/yaaas',
   });
@@ -40,8 +40,12 @@ const start = async () => {
   try {
     await fastify.listen({ port: parseInt(PORT) });
     fastify.swagger();
-    console.log(`Server listening on http://localhost:${PORT}`);
-    console.log(`Access Swagger-UI at http://localhost:${PORT}/documentation`);
+    console.log(
+      `YAAAS server is now running and listening for incoming request on http://localhost:${PORT}`
+    );
+    console.log(
+      `You can access the Swagger-UI documentation at http://localhost:${PORT}/documentation`
+    );
   } catch (error) {
     fastify.log.error(error);
     process.exit(1);
