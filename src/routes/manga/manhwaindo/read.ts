@@ -10,7 +10,7 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
     '/:endpoint',
     {
       schema: {
-        description: 'Get Chapter Details From Provider',
+        description: 'Read a specific chapter of a Manhwa.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

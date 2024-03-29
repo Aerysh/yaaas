@@ -10,7 +10,7 @@ const ManhwaindoDetails = async (fastify: FastifyInstance) => {
     '/:endpoint',
     {
       schema: {
-        description: 'Get Series Detail From Provider',
+        description: 'Get details for a specific Manhwa.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

@@ -10,7 +10,7 @@ const ManhwaindoLatest = async (fastify: FastifyInstance) => {
     '/:page',
     {
       schema: {
-        description: 'Get Latest Updated Series From Provider',
+        description: 'Retrieve the latest updated Manhwa. paginated by page number.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

@@ -10,7 +10,7 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
     '/',
     {
       schema: {
-        description: 'Get Genre List From Provider',
+        description: 'Retrieve a list of all available genre.',
         tags: ['ManhwaIndo'],
       },
     },
@@ -66,7 +66,7 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
     '/:endpoint/:page',
     {
       schema: {
-        description: 'Get Series List by Genre From Provider',
+        description: 'Get a list of Manhwa filtered by a specific genre, paginated by page number.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

@@ -10,7 +10,7 @@ const ManhwaindoPopular = async (fastify: FastifyInstance) => {
     '/:page',
     {
       schema: {
-        description: 'Get Most Popular Series From Provider',
+        description: 'Retrieve the most popular Manhwa, paginated by page number.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

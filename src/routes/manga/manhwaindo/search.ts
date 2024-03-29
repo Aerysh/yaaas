@@ -7,10 +7,10 @@ import { manhwaindoUrlHelper } from './url-helper';
 
 const ManhwaindoSearch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { query: string; page: string } }>(
-    '/:query',
+    '/:query/:page',
     {
       schema: {
-        description: 'Get Search Result From Provider Based On Query',
+        description: 'Search for a specific Manhwa. paginated by page number.',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',

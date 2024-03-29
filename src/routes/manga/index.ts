@@ -14,9 +14,14 @@ const Manga = async (fastify: FastifyInstance) => {
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       reply.status(200).send({
-        message: 'Welcome to Manga API, select provider by visiting them by their routes',
+        message:
+          'Welcome to YAAAS Manga API! Please visit the corresponding routes for each provider',
         routes: {
-          '/manhwaindo': 'Manhwaindo.id Provider',
+          '/manhwaindo': {
+            name: 'ManhwaIndo',
+            description:
+              'Search for Manhwa, view genre lists, filter by genre, and read individual chapters',
+          },
         },
       });
     }
