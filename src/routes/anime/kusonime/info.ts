@@ -10,7 +10,7 @@ const KusonimeInfo = async (fastify: FastifyInstance) => {
     '/:endpoint',
     {
       schema: {
-        description: 'Provide Details for a Series From Kusonime',
+        description: 'Retrieve the information for a specific series',
         tags: ['Kusonime'],
         params: {
           type: 'object',
@@ -72,7 +72,7 @@ const KusonimeInfo = async (fastify: FastifyInstance) => {
         });
       } catch (error) {
         reply.status(500).send({
-          message: 'Internal Server Error',
+          message: 'An unexpected error occurred on the server.',
           error,
         });
       } finally {

@@ -13,12 +13,24 @@ const Anime = async (fastify: FastifyInstance) => {
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      reply.status(200).send({
-        message: 'Welcome to Anime API, select provider by visiting them by their routes',
-        routes: {
-          '/kusonime': 'Kusonime Provider',
-        },
-      });
+      try {
+        reply.status(200).send({
+          message:
+            'Welcome to YAAAS Anime API! Please visit the corresponding routes for each provider',
+          routes: {
+            '/kusonime': {
+              name: 'Kusonime',
+              description:
+                'Search for anime series, view series information, and get download links',
+            },
+          },
+        });
+      } catch (error) {
+        reply.status(500).send({
+          message: 'An unexpected error occurred on the server.',
+          error,
+        });
+      }
     }
   );
 };

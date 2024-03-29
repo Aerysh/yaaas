@@ -10,7 +10,7 @@ const KusonimeSearch = async (fastify: FastifyInstance) => {
     '/:query/:page',
     {
       schema: {
-        description: 'Provide Search Result for Kusonime Provider',
+        description: 'Search for a series, paginated by number',
         tags: ['Kusonime'],
         params: {
           type: 'object',
@@ -72,7 +72,7 @@ const KusonimeSearch = async (fastify: FastifyInstance) => {
         }
       } catch (error) {
         reply.status(500).send({
-          message: 'Internal Server Error',
+          message: 'An unexpected error occurred on the server.',
           error,
         });
       } finally {
