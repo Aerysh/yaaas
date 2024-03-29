@@ -13,17 +13,24 @@ const Manga = async (fastify: FastifyInstance) => {
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      reply.status(200).send({
-        message:
-          'Welcome to YAAAS Manga API! Please visit the corresponding routes for each provider',
-        routes: {
-          '/manhwaindo': {
-            name: 'ManhwaIndo',
-            description:
-              'Search for Manhwa, view genre lists, filter by genre, and read individual chapters',
+      try {
+        reply.status(200).send({
+          message:
+            'Welcome to YAAAS Manga API! Please visit the corresponding routes for each provider',
+          routes: {
+            '/manhwaindo': {
+              name: 'ManhwaIndo',
+              description:
+                'Search for Manhwa, view genre lists, filter by genre, and read individual chapters',
+            },
           },
-        },
-      });
+        });
+      } catch (error) {
+        reply.status(500).send({
+          message: 'An unexpected error occurred on the server.',
+          error,
+        });
+      }
     }
   );
 };

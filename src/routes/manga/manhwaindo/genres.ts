@@ -49,7 +49,8 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
         });
       } catch (error) {
         reply.status(500).send({
-          message: 'Internal Server Error',
+          message: 'An unexpected error occurred on the server.',
+          error,
         });
       } finally {
         if (page) {
@@ -137,7 +138,8 @@ const ManhwaindoGenres = async (fastify: FastifyInstance) => {
         }
       } catch (error) {
         reply.status(500).send({
-          message: 'Internal Server Error',
+          message: 'An unexpected error occurred on the server.',
+          error,
         });
       }
     }
