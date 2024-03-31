@@ -23,15 +23,9 @@ const Kusonime = async (fastify: FastifyInstance) => {
         reply.status(200).send({
           message: `Welcome to Kusonime Provider! Please support them by visiting their website at ${KusonimeUrlHelper.base}. Thank you!`,
           routes: {
-            '/info/:endpoint': {
-              description: 'Retrieve the information for a specific series',
-            },
-            '/search/:query/:page': {
-              descriptiion: 'Search for a series, paginated by number',
-            },
-            '/watch/:endpoint': {
-              description: 'Retrieve the download links for a specific series',
-            },
+            '/info/:endpoint': 'Retrieve detailed information about a specific series',
+            '/search/:query/:page': 'Search for a specific series based on a query',
+            '/watch/:endpoint': 'Obtain download links for episodes of a series',
           },
         });
       } catch (error) {
