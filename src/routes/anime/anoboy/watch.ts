@@ -27,10 +27,6 @@ const AnoboyWatch = async (fastify: FastifyInstance) => {
         browser = await launchBrowser();
         page = await browser.newPage();
 
-        await page.goto(`${AnoboyUrlHelper.base}${request.params.endpoint}`, {
-          waitUntil: 'networkidle0',
-        });
-
         const response = await page.goto(`${AnoboyUrlHelper.base}${request.params.endpoint}`, {
           waitUntil: 'networkidle0',
         });
