@@ -55,6 +55,7 @@ const AnoboyInfo = async (fastify: FastifyInstance) => {
           const additionalInfoSpans = await page.$$eval('.info-content span', (spans) =>
             spans.map((span) => span.textContent)
           );
+
           for (const span of additionalInfoSpans) {
             if (span) {
               const [key, value] = span.split(':').map((part) => part.trim());
@@ -64,16 +65,10 @@ const AnoboyInfo = async (fastify: FastifyInstance) => {
             }
           }
 
-          if (JSON.stringify(infoData) === '{}') {
-            reply.status(400).send({
-              message: 'Requested information is not available',
-            });
-          } else {
-            reply.status(200).send({
-              message: `Anoboy: Information for ${formatEndpoint(request.params.endpoint)}`,
-              infoData,
-            });
-          }
+          reply.status(200).send({
+            message: `Anoboy: Information for ${formatEndpoint(request.params.endpoint)}`,
+            infoData,
+          });
         }
       } catch (error) {
         reply.status(500).send({
