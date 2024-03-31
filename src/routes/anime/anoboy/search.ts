@@ -2,14 +2,8 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
+import { SearchData } from './types';
 import { AnoboyUrlHelper } from './url-helper';
-
-interface SearchData {
-  id: number;
-  thumbnail: string;
-  title: string;
-  endpoint: string;
-}
 
 const AnoboySearch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { query: string; page: string } }>(

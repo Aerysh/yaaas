@@ -4,11 +4,8 @@ import { FastifyInstance } from 'fastify/types/instance';
 import formatEndpoint from '../../../utils/format-endpoint';
 import launchBrowser from '../../../utils/puppeteer';
 
+import { AdditionalInfo } from './types';
 import { AnoboyUrlHelper } from './url-helper';
-
-interface AdditionalInfo {
-  [key: string]: string;
-}
 
 const AnoboyInfo = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
