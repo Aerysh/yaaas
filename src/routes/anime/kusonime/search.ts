@@ -62,7 +62,7 @@ const KusonimeSearch = async (fastify: FastifyInstance) => {
 
         if (searchResults.length === 0) {
           reply.status(404).send({
-            message: 'Result not found',
+            message: 'Your search returned no results. Please try a different search query.',
           });
         } else {
           reply.status(200).send({

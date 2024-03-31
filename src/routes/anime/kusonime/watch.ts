@@ -71,7 +71,7 @@ const KusonimeWatch = async (fastify: FastifyInstance) => {
 
         if (downloadLinks.length === 0) {
           return reply.status(404).send({
-            message: 'No download links found',
+            message: 'The page you are looking for was not found',
           });
         } else {
           return reply.status(200).send({
