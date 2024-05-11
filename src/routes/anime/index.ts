@@ -1,26 +1,17 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance } from 'fastify';
 
+import Anoboy from './anoboy';
 import Kusonime from './kusonime';
 
 const Anime = async (fastify: FastifyInstance) => {
+  await fastify.register(Anoboy, { prefix: '/anoboy' });
   await fastify.register(Kusonime, { prefix: '/kusonime' });
 
-  fastify.get(
-    '/',
-    {
-      schema: {
-        description: 'Get Anime API Provider List',
-      },
-    },
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      reply.status(200).send({
-        message: 'Welcome to Anime API, select provider by visiting them by their routes',
-        routes: {
-          '/kusonime': 'Kusonime Provider',
-        },
-      });
-    }
-  );
+  fastify.get('/', async (request, reply) => {
+    reply.status(200).send({
+      message: 'Welcome to YAAAS Anime API',
+    });
+  });
 };
 
 export default Anime;
