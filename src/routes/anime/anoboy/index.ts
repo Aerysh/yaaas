@@ -21,7 +21,11 @@ const Anoboy = async (fastify: FastifyInstance) => {
     async (request: FastifyRequest, reply: FastifyReply) => {
       reply.status(200).send({
         message: `Welcome to Anoboy API! Please visit them at ${AnoboyUrlHelper.base}`,
-        routes: ['/search/:query', '/info/:endpoint', '/watch/:endpoint'],
+        routes: [
+          { name: 'Anime Search', path: '/search/:query' },
+          { name: 'Anime Details', path: '/info/:endpoint' },
+          { name: 'Watch Anime Episodes', path: '/watch/:endpoint' },
+        ],
       });
     }
   );
