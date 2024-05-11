@@ -10,6 +10,10 @@ const Anime = async (fastify: FastifyInstance) => {
   fastify.get('/', async (request, reply) => {
     reply.status(200).send({
       message: 'Welcome to YAAAS Anime API',
+      providers: [
+        { name: 'Anoboy', path: '/anoboy' },
+        { name: 'Kusonime', path: '/kusonime' },
+      ],
     });
   });
 };
