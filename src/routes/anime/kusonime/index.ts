@@ -1,7 +1,8 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import KusonimeInfo from './info';
 import KusonimeSearch from './search';
+import KusonimeUrlHelper from './url-helper';
 import KusonimeWatch from './watch';
 
 const Kusonime = async (fastify: FastifyInstance) => {
@@ -13,25 +14,18 @@ const Kusonime = async (fastify: FastifyInstance) => {
     '/',
     {
       schema: {
-        description: 'Provide Kusonime Provider API Route List',
         tags: ['Kusonime'],
       },
     },
-    async (request, reply) => {
-      try {
-        reply.status(200).send({
-          message: 'Welcome to Kusonime API, please visit them at https://kusonime.com/',
-          routes: {
-            '/search/:query/:page': 'Search Anime Series From Kusonime',
-            '/watch/:endpoint': 'Get Download Links for a Series From Kusonime',
-          },
-        });
-      } catch (error) {
-        reply.status(500).send({
-          message: 'Internal Server Error',
-          error,
-        });
-      }
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      reply.status(200).send({
+        message: `Welcome to Kusonime API! Please visit them at ${KusonimeUrlHelper.base}`,
+        routes: [
+          { name: 'Anime Search', path: '/search/:query' },
+          { name: 'Anime Details', path: '/info/:endpoint' },
+          { name: 'Watch Anime Episodes', path: '/watch/:endpoint' },
+        ],
+      });
     }
   );
 };
