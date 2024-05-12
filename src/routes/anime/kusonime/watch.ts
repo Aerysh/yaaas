@@ -1,16 +1,29 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import formatEndpoint from '../../../utils/format-endpoint';
 import launchBrowser from '../../../utils/puppeteer';
 
-import { KusonimeUrlHelper } from './url-helper';
+import KusonimeUrlHelper from './url-helper';
+
+type Provider = {
+  title: string;
+  url: string;
+};
+
+type Link = {
+  resolution: string;
+  providers: Provider[];
+};
+
+type EpisodeGroup = {
+  title: string;
+  links: Link[];
+};
 
 const KusonimeWatch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
     {
       schema: {
-        description: 'Provide Download Links for a Series From Kusonime',
         tags: ['Kusonime'],
         params: {
           type: 'object',
@@ -31,63 +44,47 @@ const KusonimeWatch = async (fastify: FastifyInstance) => {
           waitUntil: 'networkidle0',
         });
 
-        const smokeddlrhDivs = await page.$$('.smokeddlrh');
-        const downloadLinks = [];
+        const links = await page.evaluate(() => {
+          const dlDivs = document.querySelectorAll('.smokeddlrh');
+          const linkGroups: EpisodeGroup[] = [];
 
-        for (const smokeddlrhDiv of smokeddlrhDivs) {
-          const title = await page.evaluate(
-            (el) => el.querySelector('.smokettlrh')?.textContent,
-            smokeddlrhDiv
-          );
+          dlDivs.forEach((dlDiv) => {
+            const title = (dlDiv.querySelector('.smokettlrh') as HTMLElement)?.textContent || '';
+            const linksDivs = dlDiv.querySelectorAll('.smokeurlrh');
+            const linksArray: Link[] = [];
 
-          const smokeurlrhDivs = await smokeddlrhDiv.$$('.smokeurlrh');
-          const links = [];
+            linksDivs.forEach((linksDiv) => {
+              const resolutionMatch = (linksDiv.textContent || '').match(/(\d+)(p)?/);
+              const resolution = resolutionMatch
+                ? `${resolutionMatch[1]}${resolutionMatch[2] || ''}`
+                : '';
+              const links = Array.from(linksDiv.querySelectorAll('a'))
+                .map((a) => ({
+                  title: (a as HTMLAnchorElement).textContent || '',
+                  url: (a as HTMLAnchorElement).href || '',
+                }))
+                .filter(Boolean) as Provider[];
 
-          for (const smokeurlrhDiv of smokeurlrhDivs) {
-            const quality = await page.evaluate(
-              (el) => el.querySelector('strong')?.textContent,
-              smokeurlrhDiv
-            );
-
-            const qualityLinks = await page.evaluate((el) => {
-              const anchorTags = Array.from(el.querySelectorAll('a'));
-              return anchorTags.map((a) => ({
-                title: a.textContent?.trim(),
-                url: a.href,
-              }));
-            }, smokeurlrhDiv);
-
-            links.push({
-              quality,
-              links: qualityLinks,
+              linksArray.push({ resolution, providers: links });
             });
-          }
 
-          downloadLinks.push({
-            title,
-            links,
+            linkGroups.push({ title, links: linksArray });
           });
-        }
 
-        if (downloadLinks.length === 0) {
-          return reply.status(404).send({
-            message: 'No download links found',
-          });
-        } else {
-          return reply.status(200).send({
-            message: `Kusonime: ${formatEndpoint(request.params.endpoint)} Download Links`,
-            links: downloadLinks,
-          });
-        }
-      } catch (error) {
-        reply.status(500).send({
-          message: 'Internal Server Error',
-          error,
+          return linkGroups;
         });
-      } finally {
-        if (page) {
-          await page.close().catch(console.error);
+
+        if (links.length === 0) {
+          reply.status(404).send({
+            message: `The page you're looking for does not exist!`,
+          });
+          return;
         }
+
+        reply.status(200).send(links);
+      } catch (error) {
+        reply.status(500).send({});
+      } finally {
         if (browser) {
           await browser.close().catch(console.error);
         }

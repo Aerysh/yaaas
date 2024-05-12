@@ -14,7 +14,6 @@ const Anoboy = async (fastify: FastifyInstance) => {
     '/',
     {
       schema: {
-        description: '',
         tags: ['Anoboy'],
       },
     },
