@@ -1,23 +1,25 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
 import KusonimeUrlHelper from './url-helper';
 
+const opts: RouteShorthandOptions = {
+  schema: {
+    tags: ['Kusonime'],
+    params: {
+      type: 'object',
+      properties: {
+        endpoint: { type: 'string' },
+      },
+    },
+  },
+};
+
 const KusonimeInfo = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
-    {
-      schema: {
-        tags: ['Kusonime'],
-        params: {
-          type: 'object',
-          properties: {
-            endpoint: { type: 'string' },
-          },
-        },
-      },
-    },
+    opts,
     async (request: FastifyRequest<{ Params: { endpoint: string } }>, reply: FastifyReply) => {
       let browser;
       let page;

@@ -23,7 +23,7 @@ const Manhwaindo = async (fastify: FastifyInstance) => {
         routes: [
           { name: 'Manga Details', path: '/info/:endpoint' },
           { name: 'Get Manga Chapter', path: '/read/:endpoint' },
-          { name: 'Manga Search', path: '/search/:query' },
+          { name: 'Manga Search', path: '/search/:query/:page' },
         ],
       });
     }

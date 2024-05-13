@@ -21,8 +21,8 @@ const Kusonime = async (fastify: FastifyInstance) => {
       reply.status(200).send({
         message: `Welcome to Kusonime API! Please visit them at ${KusonimeUrlHelper.base}`,
         routes: [
-          { name: 'Anime Search', path: '/search/:query' },
           { name: 'Anime Details', path: '/info/:endpoint' },
+          { name: 'Anime Search', path: '/search/:query/:page' },
           { name: 'Watch Anime Episodes', path: '/watch/:endpoint' },
         ],
       });
