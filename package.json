@@ -15,26 +15,30 @@
   },
   "keywords": [
     "api",
+    "scraper",
     "anime",
     "manga",
     "manhwa",
-    "manhwa"
+    "anime-api",
+    "manga-api",
+    "manhwa-api"
   ],
   "homepage": "https://github.com/Aerysh/yaaas",
   "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.11",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "nodemon": "^3.1.0",
     "prettier": "3.2.5",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
@@ -43,10 +47,9 @@
     "@fastify/swagger": "^8.14.0",
     "@fastify/swagger-ui": "^3.0.0",
     "dotenv": "^16.4.5",
-    "fastify": "^4.26.2",
-    "puppeteer": "^22.7.1",
+    "fastify": "^4.27.0",
+    "puppeteer": "^22.8.1",
     "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-adblocker": "^2.13.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "lint-staged": {

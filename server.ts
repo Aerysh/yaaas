@@ -16,7 +16,7 @@ if (!PORT) {
 }
 
 const fastify: FastifyInstance = Fastify({
-  logger: true,
+  logger: false,
 });
 
 fastify.register(cors, {});
@@ -27,13 +27,7 @@ fastify.register(swaggerUi, {});
 fastify.register(Server, { prefix: '/api' });
 
 fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
-  reply.status(200).send({
-    message: 'Yet Another API for Anime and Stuff',
-    routes: {
-      '/api': 'API Routes List',
-    },
-    repository: 'https://github.com/Aerysh/yaaas',
-  });
+  reply.redirect(302, '/api');
 });
 
 const start = async () => {
