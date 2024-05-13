@@ -1,23 +1,25 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
 import ManhwaindoUrlHelper from './url-helper';
 
+const opts: RouteShorthandOptions = {
+  schema: {
+    tags: ['ManhwaIndo'],
+    params: {
+      type: 'object',
+      properties: {
+        endpoint: { type: 'string' },
+      },
+    },
+  },
+};
+
 const ManhwaindoRead = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
-    {
-      schema: {
-        tags: ['ManhwaIndo'],
-        params: {
-          type: 'object',
-          properties: {
-            endpoint: { type: 'string' },
-          },
-        },
-      },
-    },
+    opts,
     async (request: FastifyRequest<{ Params: { endpoint: string } }>, reply: FastifyReply) => {
       let browser;
       let page;

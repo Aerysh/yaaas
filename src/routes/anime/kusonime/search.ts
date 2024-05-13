@@ -1,24 +1,27 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
 import KusonimeUrlHelper from './url-helper';
 
+const opts: RouteShorthandOptions = {
+  schema: {
+    tags: ['Kusonime'],
+    params: {
+      type: 'object',
+      properties: {
+        query: { type: 'string' },
+        page: { type: 'number', default: 1 },
+      },
+    },
+  },
+};
+
 const KusonimeSearch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { query: string; page: number } }>(
     '/:query/:page',
-    {
-      schema: {
-        tags: ['Kusonime'],
-        params: {
-          type: 'object',
-          properties: {
-            query: { type: 'string' },
-            page: { type: 'number', default: 1 },
-          },
-        },
-      },
-    },
+    opts,
+
     async (
       request: FastifyRequest<{ Params: { query: string; page: number } }>,
       reply: FastifyReply
@@ -42,14 +45,14 @@ const KusonimeSearch = async (fastify: FastifyInstance) => {
           return list.map((el) => {
             const id = el.querySelector('a')?.getAttribute('href')?.split('/')[3];
             const title = el.querySelector('h2.episodeye')?.textContent || '';
-            const thumbnail = el.querySelector('div.thumbz img')?.getAttribute('src') || '';
             const url = el.querySelector('a')?.getAttribute('href');
+            const thumbnail = el.querySelector('div.thumbz img')?.getAttribute('src') || '';
 
             return {
               id,
               title,
-              thumbnail,
               url,
+              thumbnail,
             };
           });
         });

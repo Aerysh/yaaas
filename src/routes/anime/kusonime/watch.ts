@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
@@ -19,20 +19,22 @@ type EpisodeGroup = {
   links: Link[];
 };
 
+const opts: RouteShorthandOptions = {
+  schema: {
+    tags: ['Kusonime'],
+    params: {
+      type: 'object',
+      properties: {
+        endpoint: { type: 'string' },
+      },
+    },
+  },
+};
+
 const KusonimeWatch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
-    {
-      schema: {
-        tags: ['Kusonime'],
-        params: {
-          type: 'object',
-          properties: {
-            endpoint: { type: 'string' },
-          },
-        },
-      },
-    },
+    opts,
     async (request: FastifyRequest<{ Params: { endpoint: string } }>, reply: FastifyReply) => {
       let browser;
       let page;

@@ -16,11 +16,12 @@ const Server = async (fastify: FastifyInstance) => {
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       reply.status(200).send({
-        message: 'YAAAS API Route List',
-        routes: {
-          '/anime': 'Anime API Provider List',
-          '/manga': 'Manga API Provider List',
-        },
+        message: 'Welcome to Yet Another API for Anime and Stuff!',
+        routes: [
+          { name: 'Documentation', path: '/documentation' },
+          { name: 'Anime', path: '/api/anime' },
+          { name: 'Manga', path: '/api/manga' },
+        ],
       });
     }
   );
