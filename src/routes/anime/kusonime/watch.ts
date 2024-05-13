@@ -83,8 +83,14 @@ const KusonimeWatch = async (fastify: FastifyInstance) => {
 
         reply.status(200).send(links);
       } catch (error) {
-        reply.status(500).send({});
+        console.error(error);
+        reply.status(500).send({
+          message: 'An unexpected error occurred, please try again later.',
+        });
       } finally {
+        if (page) {
+          await page.close().catch(console.error);
+        }
         if (browser) {
           await browser.close().catch(console.error);
         }
