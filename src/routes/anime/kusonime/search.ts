@@ -63,11 +63,14 @@ const KusonimeSearch = async (fastify: FastifyInstance) => {
 
         reply.status(200).send(searchResult);
       } catch (error) {
+        console.error(error);
         reply.status(500).send({
-          message: 'Internal Server Error',
-          error,
+          message: 'An unexpected error occurred, please try again later.',
         });
       } finally {
+        if (page) {
+          await page.close().catch(console.error);
+        }
         if (browser) {
           await browser.close().catch(console.error);
         }

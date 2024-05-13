@@ -102,6 +102,9 @@ const AnoboyInfo = async (fastify: FastifyInstance) => {
           message: 'An unexpected error occurred, please try again later.',
         });
       } finally {
+        if (page) {
+          await page.close().catch(console.error);
+        }
         if (browser) {
           await browser.close().catch(console.error);
         }
