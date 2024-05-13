@@ -2,15 +2,13 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
-import { ChapterDetails, ChapterImages } from './types';
-import { manhwaindoUrlHelper } from './url-helper';
+import ManhwaindoUrlHelper from './url-helper';
 
 const ManhwaindoRead = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
     {
       schema: {
-        description: 'Get Chapter Details From Provider',
         tags: ['ManhwaIndo'],
         params: {
           type: 'object',
@@ -27,47 +25,29 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
         browser = await launchBrowser();
         page = await browser.newPage();
 
-        await page.goto(manhwaindoUrlHelper.read(request.params.endpoint), {
+        await page.goto(ManhwaindoUrlHelper.read(request.params.endpoint), {
           waitUntil: 'networkidle0',
         });
 
-        await page.waitForSelector('img', { timeout: 3000 });
-
-        const chapterDetails: ChapterDetails = await page.evaluate(() => {
-          const chapter: ChapterDetails = {
-            title: '',
-            images: [],
-          };
-
-          chapter.title = document.querySelector('h1.entry-title')?.textContent || 'No title';
-
-          const images: ChapterImages[] = [];
-          document.querySelectorAll('div#readerarea img').forEach((el) => {
-            const image: ChapterImages = {
-              id: images.length,
-              src: el.getAttribute('data-lazy-src') || el.getAttribute('src') || '',
-            };
-            images.push(image);
-          });
-          chapter.images = images;
-
-          return chapter;
+        const chapterInfo = await page.evaluate(() => {
+          const imageElements = Array.from(document.querySelectorAll('#readerarea img'));
+          return imageElements.map((imageElement) => ({
+            id: `image_${Math.random().toString(36).substring(2, 10)}`, // Random ID cuz if I only return image src it's kinda boring
+            src: imageElement.getAttribute('data-lazy-src'),
+          }));
         });
 
-        if (chapterDetails.images.length === 0) {
+        if (chapterInfo.length === 0) {
           reply.status(404).send({
-            message: 'Result not found',
-          });
-        } else {
-          reply.status(200).send({
-            message: `ManhwaIndo: Chapter Details`,
-            chapterDetails,
+            message: 'The page you are looking for does not exist.',
           });
         }
+
+        reply.status(200).send(chapterInfo);
       } catch (error) {
+        console.error(error);
         reply.status(500).send({
-          message: 'Internal Server Error',
-          error,
+          message: 'An unexpected error occurred, please try again later.',
         });
       } finally {
         if (page) {

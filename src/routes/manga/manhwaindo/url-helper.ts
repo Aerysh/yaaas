@@ -1,11 +1,8 @@
-export const manhwaindoUrlHelper = {
+const ManhwaindoUrlHelper = {
   base: 'https://manhwaindo.net/',
-  genres: (endpoint: string, page = 1) =>
-    `${manhwaindoUrlHelper.base}genres/${endpoint}/?page=${page}&order=popular`,
-  series: (page = 1) => `${manhwaindoUrlHelper.base}series/?page=${page}`,
-  popular: (page = 1) => `${manhwaindoUrlHelper.base}series/?order=popular&page=${page}`,
-  latest: (page = 1) => `${manhwaindoUrlHelper.base}series/?order=update&page=${page}`,
-  detail: (endpoint: string) => `${manhwaindoUrlHelper.base}series/${endpoint}`,
-  read: (endpoint: string) => `${manhwaindoUrlHelper.base}${endpoint}`,
-  search: (query: string, page = 1) => `${manhwaindoUrlHelper.base}/?s=${query}&page=${page}`,
+  info: (endpoint: string) => `${ManhwaindoUrlHelper.base}series/${endpoint}`,
+  read: (endpoint: string) => `${ManhwaindoUrlHelper.base}${endpoint}`,
+  search: (query: string, page = 1) => `${ManhwaindoUrlHelper.base}/?s=${query}&page=${page}`,
 };
+
+export default ManhwaindoUrlHelper;
