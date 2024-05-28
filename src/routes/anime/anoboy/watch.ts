@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyReply, FastifyRequest, RouteShorthandOptions } from 'fastify';
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  RouteShorthandOptions,
+} from 'fastify';
 
 import launchBrowser from '../../../utils/puppeteer';
 
@@ -20,7 +25,10 @@ const AnoboyWatch = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: { endpoint: string } }>(
     '/:endpoint',
     opts,
-    async (request: FastifyRequest<{ Params: { endpoint: string } }>, reply: FastifyReply) => {
+    async (
+      request: FastifyRequest<{ Params: { endpoint: string } }>,
+      reply: FastifyReply,
+    ) => {
       let browser;
       let page;
       try {
@@ -40,7 +48,9 @@ const AnoboyWatch = async (fastify: FastifyInstance) => {
           });
 
         const videoInfo = await page.evaluate(() => {
-          const iframe = document.querySelector('#pembed iframe') as HTMLIFrameElement;
+          const iframe = document.querySelector(
+            '#pembed iframe',
+          ) as HTMLIFrameElement;
 
           return {
             id: window.location.href?.split('/')[3],
@@ -68,7 +78,7 @@ const AnoboyWatch = async (fastify: FastifyInstance) => {
           await browser.close().catch(console.error);
         }
       }
-    }
+    },
   );
 };
 

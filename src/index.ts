@@ -23,7 +23,7 @@ const Server = async (fastify: FastifyInstance) => {
           { name: 'Manga', path: '/api/manga' },
         ],
       });
-    }
+    },
   );
 };
 
