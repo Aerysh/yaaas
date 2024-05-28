@@ -28,11 +28,11 @@
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@eslint/js": "^9.3.0",
-    "@types/node": "^20.12.11",
-    "eslint": "9.x",
+    "@types/node": "^20.12.12",
+    "eslint": "~9.3.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import-x": "^0.5.1",
-    "nodemon": "^3.1.0",
+    "nodemon": "^3.1.1",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
@@ -45,7 +45,7 @@
     "@fastify/swagger-ui": "^3.0.0",
     "dotenv": "^16.4.5",
     "fastify": "^4.27.0",
-    "puppeteer": "^22.8.1",
+    "puppeteer": "^22.10.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   }
