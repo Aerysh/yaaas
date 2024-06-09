@@ -1,11 +1,10 @@
+import launchBrowser from '@utils/puppeteer'
 import {
   FastifyInstance,
   FastifyReply,
   FastifyRequest,
   RouteShorthandOptions,
 } from 'fastify';
-
-import launchBrowser from '../../../utils/puppeteer';
 
 import KusonimeUrlHelper from './url-helper';
 

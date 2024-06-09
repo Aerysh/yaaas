@@ -7,7 +7,15 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@routes/*": [
+        "./src/routes/*",
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ]
+    },
   },
   "$schema": "https://json.schemastore.org/tsconfig"
 }

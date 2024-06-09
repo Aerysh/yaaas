@@ -1,6 +1,8 @@
 import fastifyCors from '@fastify/cors';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import Anime from '@routes/anime';
+import Manga from '@routes/manga';
 import dotenv from 'dotenv';
 import Fastify, {
   FastifyInstance,
@@ -8,8 +10,6 @@ import Fastify, {
   FastifyRequest,
 } from 'fastify';
 
-import Anime from './routes/anime';
-import Manga from './routes/manga';
 
 dotenv.config();
 

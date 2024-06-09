@@ -1,3 +1,4 @@
+import launchBrowser from '@utils/puppeteer';
 import {
   FastifyInstance,
   FastifyReply,
@@ -5,7 +6,6 @@ import {
   RouteShorthandOptions,
 } from 'fastify';
 
-import launchBrowser from '../../../utils/puppeteer';
 
 import AnoboyUrlHelper from './url-helper';
 
