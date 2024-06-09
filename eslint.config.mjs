@@ -1,6 +1,6 @@
 import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
-import eslintPluginImportX from 'eslint-plugin-import-x';
+import eslintPluginImport from 'eslint-plugin-import-x';
 import tseslint from 'typescript-eslint';
 
 export default [
@@ -9,16 +9,14 @@ export default [
   eslintConfigPrettier,
   {
     plugins: {
-      'import-x': eslintPluginImportX,
+      import: eslintPluginImport,
     },
-  },
-  {
     rules: {
-      'import-x/order': [
+      'import/order': [
         'error',
         {
           'newlines-between': 'always',
-          alphabetize: { order: 'asc' },
+          alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
     },
