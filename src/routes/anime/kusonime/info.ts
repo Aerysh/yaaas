@@ -1,4 +1,4 @@
-import launchBrowser from '@utils/puppeteer'
+import launchBrowser from '@utils/puppeteer';
 import {
   FastifyInstance,
   FastifyReply,

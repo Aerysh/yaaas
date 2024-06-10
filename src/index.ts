@@ -10,7 +10,6 @@ import Fastify, {
   FastifyRequest,
 } from 'fastify';
 
-
 dotenv.config();
 
 const fastify: FastifyInstance = Fastify({

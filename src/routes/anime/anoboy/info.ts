@@ -6,7 +6,6 @@ import {
   RouteShorthandOptions,
 } from 'fastify';
 
-
 import AnoboyUrlHelper from './url-helper';
 
 const opts: RouteShorthandOptions = {

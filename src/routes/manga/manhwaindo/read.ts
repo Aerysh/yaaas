@@ -6,7 +6,6 @@ import {
   RouteShorthandOptions,
 } from 'fastify';
 
-
 import ManhwaindoUrlHelper from './url-helper';
 
 const opts: RouteShorthandOptions = {
