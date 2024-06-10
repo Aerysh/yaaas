@@ -9,13 +9,12 @@
     "rootDir": "src",
     "outDir": "dist",
     "paths": {
-      "@routes/*": [
-        "./src/routes/*",
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ]
-    },
+      "@routes/*": ["./src/routes/*"],
+      "@utils/*": ["./src/utils/*"]
+    }
   },
-  "$schema": "https://json.schemastore.org/tsconfig"
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }
