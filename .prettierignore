@@ -1,0 +1,6 @@
+# Deep Directories
+**/dist
+**/node_modules
+
+# Files
+pnpm-lock.yaml

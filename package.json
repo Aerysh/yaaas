@@ -1,54 +1,38 @@
 {
-  "name": "yaaas",
-  "version": "0.1.3",
-  "description": "Yet Another API for Anime and Stuff",
-  "engines": {
-    "node": ">=20.0 < 21.0"
-  },
-  "scripts": {
-    "start": "node dist/index.js",
-    "build": "pnpm fix && rimraf dist && tsc && tsc-alias",
-    "dev": "nodemon src/index.ts",
-    "lint": "eslint src/**/*",
-    "format": "prettier src --check",
-    "fix": "pnpm format --write && pnpm lint --fix"
-  },
-  "keywords": [
-    "api",
-    "scraper",
-    "anime",
-    "manga",
-    "manhwa",
-    "anime-api",
-    "manga-api",
-    "manhwa-api"
-  ],
-  "homepage": "https://github.com/Aerysh/yaaas",
-  "author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
-  "license": "GPL-3.0-or-later",
-  "devDependencies": {
-    "@eslint/js": "^9.4.0",
-    "@types/node": "^20.14.2",
-    "eslint": "~9.3.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import-x": "^0.5.1",
-    "nodemon": "^3.1.3",
-    "prettier": "^3.3.1",
-    "rimraf": "^5.0.7",
-    "ts-node": "^10.9.2",
-    "tsc-alias": "^1.8.10",
-    "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "8.0.0-alpha.29"
-  },
-  "dependencies": {
-    "@fastify/cors": "^9.0.1",
-    "@fastify/swagger": "^8.14.0",
-    "@fastify/swagger-ui": "^3.1.0",
-    "dotenv": "^16.4.5",
-    "fastify": "^4.27.0",
-    "puppeteer": "^22.10.0",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
-  }
+	"name": "yaaas",
+	"version": "0.1.3",
+	"description": "Yet Another API for Anime and Stuff",
+	"scripts": {
+		"start": "node dist/index.js",
+		"build": "rimraf dist && tsc",
+		"dev": "nodemon src/index.ts",
+		"lint": "eslint --report-unused-disable-directives",
+		"format": "prettier --write ."
+	},
+	"homepage": "https://codeberg.org/Aerysh/yaaas",
+	"author": "Ahmad Azwar Annas <ahmadazw2@gmail.com>",
+	"license": "GPL-3.0-or-later",
+	"devDependencies": {
+		"@eslint/eslintrc": "^3.1.0",
+		"@eslint/js": "^9.8.0",
+		"@types/node": "^20.14.12",
+		"eslint": "~9.8.0",
+		"eslint-plugin-import-x": "^3.1.0",
+		"nodemon": "^3.1.4",
+		"prettier": "^3.3.3",
+		"rimraf": "^6.0.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.4",
+		"typescript-eslint": "7.17.0"
+	},
+	"dependencies": {
+		"@fastify/cors": "^9.0.1",
+		"@fastify/swagger": "^8.15.0",
+		"@fastify/swagger-ui": "^4.0.1",
+		"dotenv": "^16.4.5",
+		"fastify": "^4.28.1",
+		"puppeteer": "^22.14.0",
+		"puppeteer-extra": "^3.3.6",
+		"puppeteer-extra-plugin-stealth": "^2.11.2"
+	}
 }

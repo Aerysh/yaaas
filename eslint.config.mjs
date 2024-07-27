@@ -1,24 +1,20 @@
+import { FlatCompat } from '@eslint/eslintrc';
 import pluginJs from '@eslint/js';
-import eslintConfigPrettier from 'eslint-config-prettier';
-import eslintPluginImport from 'eslint-plugin-import-x';
+import path from 'path';
 import tseslint from 'typescript-eslint';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+	baseDirectory: __dirname,
+});
 
 export default [
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  eslintConfigPrettier,
-  {
-    plugins: {
-      import: eslintPluginImport,
-    },
-    rules: {
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
-    },
-  },
+	{ files: ['**/*.{js,mjs,cjs,ts}'] },
+	pluginJs.configs.recommended,
+	...tseslint.configs.recommended,
+	...compat.extends('plugin:import-x/recommended'),
+	...compat.extends('plugin:import-x/typescript'),
 ];
