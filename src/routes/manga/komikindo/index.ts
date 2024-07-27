@@ -1,11 +1,13 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 import KomikindoInfo from './info';
+import KomikindoRead from './read';
 import KomikindoSearch from './search';
 import KomikindoUrlHelper from './url-helper';
 
 const Komikindo = async (fastify: FastifyInstance) => {
 	await fastify.register(KomikindoInfo, { prefix: '/info' });
+	await fastify.register(KomikindoRead, { prefix: '/read' });
 	await fastify.register(KomikindoSearch, { prefix: '/search' });
 
 	fastify.get(
