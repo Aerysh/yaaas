@@ -5,11 +5,11 @@ import {
 	RouteShorthandOptions,
 } from 'fastify';
 import launchBrowser from '../../../utils/puppeteer';
-import AnoboyUrlHelper from './url-helper';
+import KomikindoUrlHelper from './url-helper';
 
 const opts: RouteShorthandOptions = {
 	schema: {
-		tags: ['Anoboy'],
+		tags: ['Komikindo'],
 		params: {
 			type: 'object',
 			properties: {
@@ -20,7 +20,7 @@ const opts: RouteShorthandOptions = {
 	},
 };
 
-const AnoboySearch = async (fastify: FastifyInstance) => {
+const KomikindoSearch = async (fastify: FastifyInstance) => {
 	fastify.get<{ Params: { query: string; page: number } }>(
 		'/:query/:page',
 		opts,
@@ -34,33 +34,30 @@ const AnoboySearch = async (fastify: FastifyInstance) => {
 				browser = await launchBrowser();
 				page = await browser.newPage();
 
-				const query = encodeURI(request.params.query); // Encode the query to handle special characters
-				const pageNumber = request.params.page || 1;
+				const query = encodeURI(request.params.query);
+				const pageNumber = Number(request.params.page) || 1;
 
-				await page.goto(AnoboyUrlHelper.search(query, pageNumber), {
+				await page.goto(KomikindoUrlHelper.search(query, pageNumber), {
 					waitUntil: 'networkidle0',
 				});
+
+				await page.waitForSelector('img', { timeout: 3000 });
 
 				const searchResult = await page.evaluate(() => {
 					const list = Array.from(document.querySelectorAll('.listupd .bs'));
 
 					return list.map((el) => {
 						const id = el
-							.querySelector('.tip')
+							.querySelector('a')
 							?.getAttribute('href')
 							?.split('/')[4];
-						const title = el.querySelector('.tip h2')?.textContent || '';
-						const url = el.querySelector('.tip')?.getAttribute('href');
+						const title = el.querySelector('a')?.getAttribute('title') || '';
+						const url = el.querySelector('a')?.getAttribute('href');
 						const thumbnail = el
 							.querySelector('.ts-post-image')
 							?.getAttribute('src');
 
-						return {
-							id,
-							title,
-							url,
-							thumbnail,
-						};
+						return { id, title, url, thumbnail };
 					});
 				});
 
@@ -68,14 +65,13 @@ const AnoboySearch = async (fastify: FastifyInstance) => {
 					reply.status(404).send({
 						message: `No results found for the query "${request.params.query}"`,
 					});
-					return;
 				}
 
 				reply.status(200).send(searchResult);
 			} catch (error) {
 				console.error(error);
 				reply.status(500).send({
-					message: 'An unexpected error occurred, please try again later.',
+					message: 'An unexpected error occured, please try again later.',
 				});
 			} finally {
 				if (page) {
@@ -89,4 +85,4 @@ const AnoboySearch = async (fastify: FastifyInstance) => {
 	);
 };
 
-export default AnoboySearch;
+export default KomikindoSearch;

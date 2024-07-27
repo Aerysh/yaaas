@@ -1,0 +1,7 @@
+pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      run: pnpm prettier --write {staged_files}
+    eslint:
+      run: pnpm eslint --report-unused-disable-directives {staged_files}

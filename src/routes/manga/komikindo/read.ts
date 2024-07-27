@@ -4,22 +4,12 @@ import {
 	FastifyRequest,
 	RouteShorthandOptions,
 } from 'fastify';
+import KomikindoUrlHelper from './url-helper';
 import launchBrowser from '../../../utils/puppeteer';
-import ManhwaindoUrlHelper from './url-helper';
 
-const opts: RouteShorthandOptions = {
-	schema: {
-		tags: ['ManhwaIndo'],
-		params: {
-			type: 'object',
-			properties: {
-				endpoint: { type: 'string' },
-			},
-		},
-	},
-};
+const opts: RouteShorthandOptions = {};
 
-const ManhwaindoRead = async (fastify: FastifyInstance) => {
+const KomikindoRead = async (fastify: FastifyInstance) => {
 	fastify.get<{ Params: { endpoint: string } }>(
 		'/:endpoint',
 		opts,
@@ -33,17 +23,16 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
 				browser = await launchBrowser();
 				page = await browser.newPage();
 
-				await page.goto(ManhwaindoUrlHelper.read(request.params.endpoint), {
-					waitUntil: 'networkidle0',
+				await page.goto(KomikindoUrlHelper.read(request.params.endpoint), {
+					waitUntil: 'networkidle2',
 				});
 
-				const chapterInfo = await page.evaluate(() => {
-					const imageElements = Array.from(
-						document.querySelectorAll('#readerarea img')
-					);
-					return imageElements.map((imageElement) => ({
+				await page.content();
+
+				const chapterInfo = await page.$$eval('#readerarea img', (imgs) => {
+					return imgs.map((img) => ({
 						id: `image_${Math.random().toString(36).substring(2, 10)}`, // Random ID cuz if I only return image src it's kinda boring
-						src: imageElement.getAttribute('data-lazy-src'),
+						src: img.src,
 					}));
 				});
 
@@ -57,7 +46,7 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
 			} catch (error) {
 				console.error(error);
 				reply.status(500).send({
-					message: 'An unexpected error occurred, please try again later.',
+					message: `An unexpected error occurred, please try again later.`,
 				});
 			} finally {
 				if (page) {
@@ -71,4 +60,4 @@ const ManhwaindoRead = async (fastify: FastifyInstance) => {
 	);
 };
 
-export default ManhwaindoRead;
+export default KomikindoRead;

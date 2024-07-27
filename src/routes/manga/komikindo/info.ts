@@ -5,11 +5,11 @@ import {
 	RouteShorthandOptions,
 } from 'fastify';
 import launchBrowser from '../../../utils/puppeteer';
-import AnoboyUrlHelper from './url-helper';
+import KomikindoUrlHelper from './url-helper';
 
 const opts: RouteShorthandOptions = {
 	schema: {
-		tags: ['Anoboy'],
+		tags: ['Komikindo'],
 		params: {
 			type: 'object',
 			properties: {
@@ -19,7 +19,7 @@ const opts: RouteShorthandOptions = {
 	},
 };
 
-const AnoboyInfo = async (fastify: FastifyInstance) => {
+const KomikindoInfo = async (fastify: FastifyInstance) => {
 	fastify.get<{ Params: { endpoint: string } }>(
 		'/:endpoint',
 		opts,
@@ -33,61 +33,57 @@ const AnoboyInfo = async (fastify: FastifyInstance) => {
 				browser = await launchBrowser();
 				page = await browser.newPage();
 
-				const response = await page
-					.goto(AnoboyUrlHelper.info(request.params.endpoint), {
+				const response = await page.goto(
+					KomikindoUrlHelper.info(request.params.endpoint),
+					{
 						waitUntil: 'networkidle0',
-					})
-					.catch((error) => {
-						console.error(error);
-						reply.status(500).send({
-							message: 'Failed to load the page, please try again later.',
-						});
-						return;
-					});
+					}
+				);
 
 				if (response && response.status() === 404) {
 					reply.status(404).send({
 						message: 'The page you are looking for was not found',
 					});
-					return;
 				}
 
-				const animeInfo = await page.evaluate(() => {
+				const mangaInfo = await page.evaluate(() => {
 					if (typeof window === 'undefined')
-						throw new Error('window does not exiest');
+						throw new Error('window does not exists');
 
-					const additionalInfoSpans = Array.from(
-						document.querySelectorAll('.info-content span')
-					).map((span) => span.textContent);
-					let type;
-					let releaseDate;
+					const additionalInfo = Array.from(
+						document.querySelectorAll('.tsinfo div')
+					).map((div) => div.textContent);
+
 					let status;
+					let type;
 
-					for (const span of additionalInfoSpans) {
-						if (span) {
-							const [key, value] = span.split(':').map((part) => part.trim());
-							if (key === 'Type') type = value;
+					for (const div of additionalInfo) {
+						if (div) {
+							const [key, value] = div.split(' ').map((part) => part.trim());
 							if (key === 'Status') status = value;
-							if (key === 'Released on') releaseDate = value;
+							if (key === 'Type') type = value;
 						}
 					}
 
-					const genres = Array.from(document.querySelectorAll('.genxed a')).map(
+					const genres = Array.from(document.querySelectorAll('.mgen a')).map(
 						(link) => link.textContent
 					);
 
-					const episodes = Array.from(
+					const chapters = Array.from(
 						document.querySelectorAll('.eplister li')
 					).map((li) => {
 						const id = li
 							.querySelector('a')
 							?.getAttribute('href')
-							?.split('/')[3];
-						const episodeNumber = li.querySelector('.epl-num')?.textContent;
+							?.split('/')[4];
+
+						const chapterNumber = li.querySelector('.chapternum')?.textContent;
+
 						const url = li.querySelector('a')?.getAttribute('href');
+
 						return {
 							id,
-							episodeNumber,
+							chapterNumber,
 							url,
 						};
 					});
@@ -99,34 +95,40 @@ const AnoboyInfo = async (fastify: FastifyInstance) => {
 						thumbnail: document
 							.querySelector('.thumb img')
 							?.getAttribute('src'),
-						releaseDate,
+						releaseDate: document
+							.querySelector('.flex-wrap .fmed:nth-child(1) span')
+							?.textContent?.replace('\n', ''),
 						description: document.querySelector('.entry-content')?.textContent,
 						genres,
 						type,
 						status,
+						// TODO:
+						// This will return genres if alternative title isn't found
+						// Should be able to be fixed by finding div.wd-full that contains b with text "Judul Alternatif"
+						// but I'm to lazy to do that
 						alternativeTitle: document
-							.querySelector('.alter')
+							.querySelector('.wd-full span')
 							?.textContent?.split(', '),
-						episodes,
+						chapters,
 					};
 				});
 
-				reply.status(200).send(animeInfo);
+				reply.status(200).send(mangaInfo);
 			} catch (error) {
 				console.error(error);
 				reply.status(500).send({
-					message: 'An unexpected error occurred, please try again later.',
+					message: 'An unexpected error occured, please try again later.',
 				});
 			} finally {
 				if (page) {
-					await page.close().catch(console.error);
+					page.close().catch(console.error);
 				}
 				if (browser) {
-					await browser.close().catch(console.error);
+					browser.close().catch(console.error);
 				}
 			}
 		}
 	);
 };
 
-export default AnoboyInfo;
+export default KomikindoInfo;
