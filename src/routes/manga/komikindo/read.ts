@@ -7,7 +7,17 @@ import {
 import KomikindoUrlHelper from './url-helper';
 import launchBrowser from '../../../utils/puppeteer';
 
-const opts: RouteShorthandOptions = {};
+const opts: RouteShorthandOptions = {
+	schema: {
+		tags: ['Komikindo'],
+		params: {
+			type: 'object',
+			properties: {
+				endpoint: { type: 'string' },
+			},
+		},
+	},
+};
 
 const KomikindoRead = async (fastify: FastifyInstance) => {
 	fastify.get<{ Params: { endpoint: string } }>(
