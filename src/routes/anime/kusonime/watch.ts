@@ -7,21 +7,6 @@ import {
 import launchBrowser from '../../../utils/puppeteer';
 import KusonimeUrlHelper from './url-helper';
 
-type Provider = {
-	title: string;
-	url: string;
-};
-
-type Link = {
-	resolution: string;
-	providers: Provider[];
-};
-
-type EpisodeGroup = {
-	title: string;
-	links: Link[];
-};
-
 const opts: RouteShorthandOptions = {
 	schema: {
 		tags: ['Kusonime'],
@@ -49,51 +34,50 @@ const KusonimeWatch = async (fastify: FastifyInstance) => {
 				page = await browser.newPage();
 
 				await page.goto(KusonimeUrlHelper.info(request.params.endpoint), {
-					waitUntil: 'networkidle0',
+					waitUntil: 'networkidle2',
 				});
 
-				const links = await page.evaluate(() => {
-					const dlDivs = document.querySelectorAll('.smokeddlrh');
-					const linkGroups: EpisodeGroup[] = [];
+				const episodeInfo = await page.evaluate(() => {
+					const downloadDivs = Array.from(
+						document.querySelectorAll('.smokeddlrh')
+					);
 
-					dlDivs.forEach((dlDiv) => {
-						const title =
-							(dlDiv.querySelector('.smokettlrh') as HTMLElement)
-								?.textContent || '';
-						const linksDivs = dlDiv.querySelectorAll('.smokeurlrh');
-						const linksArray: Link[] = [];
+					return downloadDivs.map((div) => {
+						const title = div.querySelector('.smokettlrh')?.textContent;
 
-						linksDivs.forEach((linksDiv) => {
-							const resolutionMatch = (linksDiv.textContent || '').match(
-								/(\d+)(p)?/
-							);
-							const resolution = resolutionMatch
-								? `${resolutionMatch[1]}${resolutionMatch[2] || ''}`
-								: '';
-							const links = Array.from(linksDiv.querySelectorAll('a'))
-								.map((a) => ({
-									title: (a as HTMLAnchorElement).textContent || '',
-									url: (a as HTMLAnchorElement).href || '',
-								}))
-								.filter(Boolean) as Provider[];
+						const linksDivs = Array.from(
+							div.querySelectorAll('.smokeurlrh')
+						).map((link) => {
+							const resolutionMatch = link.textContent?.match(/(\d+)(p)?/);
 
-							linksArray.push({ resolution, providers: links });
+							const resolution = resolutionMatch ? `${resolutionMatch[1]}` : '';
+
+							const links = Array.from(link.querySelectorAll('a')).map((a) => ({
+								title: a?.textContent,
+								url: a?.href,
+							}));
+
+							return {
+								resolution,
+								mirrors: links,
+							};
 						});
 
-						linkGroups.push({ title, links: linksArray });
+						return {
+							title,
+							downloads: linksDivs,
+						};
 					});
-
-					return linkGroups;
 				});
 
-				if (links.length === 0) {
+				if (episodeInfo.length === 0) {
 					reply.status(404).send({
 						message: `The page you're looking for does not exist!`,
 					});
 					return;
 				}
 
-				reply.status(200).send(links);
+				reply.status(200).send(episodeInfo);
 			} catch (error) {
 				console.error(error);
 				reply.status(500).send({
